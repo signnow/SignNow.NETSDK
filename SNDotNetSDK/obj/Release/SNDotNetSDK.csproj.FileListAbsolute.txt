@@ -1,0 +1,12 @@
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\log4net.dll
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\Newtonsoft.Json.dll
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\RestSharp.dll
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\SNDotNetSDK.dll.config
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\SNDotNetSDK.dll
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\SNDotNetSDK.pdb
+D:\SNDotNetSDK\SNDotNetSDK\bin\Release\log4net.xml
+D:\SNDotNetSDK\SNDotNetSDK\obj\Release\SNDotNetSDK.dll
+D:\SNDotNetSDK\SNDotNetSDK\obj\Release\SNDotNetSDK.pdb
+D:\SNDotNetSDK\SNDotNetSDK\obj\Release\SNDotNetSDK.csprojResolveAssemblyReference.cache
+D:\SNDotNetSDK\SNDotNetSDK\obj\Release\SNDotNetSDK.Properties.Resources.resources
+D:\SNDotNetSDK\SNDotNetSDK\obj\Release\SNDotNetSDK.csproj.GenerateResource.Cache

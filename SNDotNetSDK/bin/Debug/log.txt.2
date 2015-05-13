@@ -1,0 +1,29 @@
+2015-05-13 15:59:42,614 [8] DEBUG com.signnow.sdk.service.impl.UserService [(null)] - POSTING to /user 
+{
+  "id": null,
+  "first_name": "firstName",
+  "last_name": "LastName",
+  "email": "lukeskywalker-8587700939029603233@mailinator.com",
+  "password": "fakePassword",
+  "verified": null,
+  "oauth2Token": null
+}
+2015-05-13 15:59:45,920 [8] DEBUG com.signnow.sdk.service.impl.UserService [(null)] - Response Content is {"id":"8fdd42fcf202ac46bc8271fb8806f7c524ec2b25","verified":0,"email":"lukeskywalker-8587700939029603233@mailinator.com"}
+2015-05-13 15:59:45,974 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - POSTING to /oauth2/token 
+{
+  "id": "8fdd42fcf202ac46bc8271fb8806f7c524ec2b25",
+  "first_name": null,
+  "last_name": null,
+  "email": "lukeskywalker-8587700939029603233@mailinator.com",
+  "password": "fakePassword",
+  "verified": "0",
+  "oauth2Token": null
+}
+2015-05-13 15:59:52,345 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - Response Content is {"expires_in":2592000,"token_type":"bearer","access_token":"ff4a5a758f616e2993f09461548e4d74747bc9b068503fa1cba8e5d07c119c1b","refresh_token":"24de15924ffae336162e3055da095e7105288fdf87296768032bae5a2ecb9a4c","scope":"*","last_login":null}
+2015-05-13 15:59:52,357 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - POSTING to /document 
+"C:\\temp\\Input\\Doc2.pdf"
+2015-05-13 15:59:57,011 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - Response Content is {"id":"039937eee41d75c25e8e69a6f62c51715a310055"}
+2015-05-13 15:59:57,014 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - POSTING to /document 
+"C:\\temp\\Input\\UploadDoc.docx"
+2015-05-13 16:00:03,569 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - Response Content is {"id":"f6261d1c4ace53d66db1da8bfa929209962d8d94"}
+2015-05-13 16:00:09,692 [8] DEBUG com.signnow.sdk.service.impl.OAuth2TokenService [(null)] - Response Content is in Byte Array Form
