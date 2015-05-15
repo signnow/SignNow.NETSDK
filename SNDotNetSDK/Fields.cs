@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This model is useful to build the Fields Object to have different types of files like, Signature,CheckBox,Texts and Initials.
+     */
     public class Fields
     {
         public int x { get; set; }

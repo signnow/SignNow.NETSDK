@@ -1,6 +1,11 @@
 ﻿
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This class is used to create the check box on the document
+     */
     public class Checkbox : Fields
     {
         public int x { get; set; }

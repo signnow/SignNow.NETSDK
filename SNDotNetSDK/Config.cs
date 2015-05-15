@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace com.signnow.sdk
 {
     public class Config
     {
-         private static string apiBase;
+        /**
+         * Created by Deepak on 5/14/2015
+         * 
+         * This class is used to read the configuration parameters like, base endpointURL, clientID, clientSecret to access SignNow Application.
+         */
+        private static string apiBase;
          private static string clientId;
          private static string clientSecret;
 

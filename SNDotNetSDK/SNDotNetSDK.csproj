@@ -76,6 +76,7 @@
     <Compile Include="DocumentService.cs" />
     <Compile Include="DocumentServiceTest.cs" />
     <Compile Include="EmailSignature.cs" />
+    <Compile Include="EventSubscription.cs" />
     <Compile Include="Fields.cs" />
     <Compile Include="IAuthenticationService.cs" />
     <Compile Include="IDocumentService.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Radio.cs" />
     <Compile Include="Signature.cs" />
     <Compile Include="Template.cs" />
-    <Compile Include="TestBase.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="UserServiceTest.cs" />

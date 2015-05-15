@@ -8,6 +8,11 @@ using System.IO;
 
 namespace com.signnow.sdk.service.impl
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This class is used to perform to Create / GET User details in the SignNow Application.
+     */
     public class UserService : IUserService
     {
         static UserService()
@@ -17,8 +22,11 @@ namespace com.signnow.sdk.service.impl
             log4net.Config.XmlConfigurator.Configure(finfo);
         }
 
-        private static readonly ILog logger = LogManager.GetLogger(typeof(UserService)); 
+        private static readonly ILog logger = LogManager.GetLogger(typeof(UserService));
 
+        /*
+         * This method is used to create (POST) a User in the SignNow Application.
+         */
         public User create(User user) {
         User createdUser = null;
         try {
@@ -48,6 +56,9 @@ namespace com.signnow.sdk.service.impl
         return createdUser;
        }
 
+        /*
+         * This method is used to retrieve (GET) a User in the SignNow Application.
+         */
         public User get(User user) {
         User getUser = null;
         try {

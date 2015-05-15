@@ -1,17 +1,23 @@
 ﻿using com.signnow.sdk.model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Configuration;
 
 namespace com.signnow.sdk.service.impl
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This test class is used to perform and test Token related operations.
+     */
     [TestClass]
     public class Oauth2TokenServiceTest
     {
         private static IUserService userService;
         private static IAuthenticationService authenticationService;
-        private string clientID = "adfb610205ab0b1cc23dddf43de3103d";
-        private string clientSecret = "f972dd9947e9fe3b88d9e619eb492d95";
-        private string apibase = "signnow.eval";
+        private string clientID = ConfigurationManager.AppSettings.Get("clientID");
+        private string clientSecret = ConfigurationManager.AppSettings.Get("clientSecret");
+        private string apibase = ConfigurationManager.AppSettings.Get("apibase");
 
         [ClassInitialize]
         public static void before(TestContext t)

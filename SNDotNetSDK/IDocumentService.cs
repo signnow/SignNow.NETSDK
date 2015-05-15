@@ -1,10 +1,14 @@
 ﻿using com.signnow.sdk.model;
-using System.Collections.Generic;
 using System.Collections;
-using SNDotNetSDK;
+using System.Collections.Generic;
 
 namespace com.signnow.sdk.service
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This interface is used to perform to Document specific operations in the SignNow Application.
+     */
     public interface IDocumentService
     {
         Document create(Oauth2Token token, Document documentPath);
@@ -34,5 +38,11 @@ namespace com.signnow.sdk.service
         string deleteDocument(Oauth2Token token, string id);
 
         byte[] mergeDocuments(Oauth2Token token, Hashtable myMergeMap);
+
+        EventSubscription createEventSubscription(Oauth2Token token, EventSubscription events);
+
+        EventSubscription deleteEventSubscription(Oauth2Token token, string id);
+
+        Document createSimpleFieldTag(Oauth2Token token, Document documentPath);
     }
 }

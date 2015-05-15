@@ -1,63 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-
+﻿
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This model obejct being used to get the OAuth2 access tokens to interact with SignNow API .
+     */
     public class Oauth2Token
     {
     
-    private string accessToken;
+        private string accessToken;
 
-    private string tokenType;
+        private string tokenType;
 
-    private string refreshToken;
+        private string refreshToken;
 
-    private string scope;
+        private string scope;
 
-    private int expiresIn;
+        private int expiresIn;
 
-    public Oauth2Token() {
-    }
+        public string access_token
+	    {
+            get { return accessToken; }
+		    set { this.accessToken = value; }
+	    }
 
-    public Oauth2Token(string accessToken, string tokenType, string refreshToken, string scope, int expiresIn) {
-        this.accessToken = accessToken;
-        this.tokenType = tokenType;
-        this.refreshToken = refreshToken;
-        this.scope = scope;
-        this.expiresIn = expiresIn;
-    }
+        public string token_type
+	    {
+		    get {   return tokenType; }
+		    set {   this.tokenType = value; }
+	    }
 
-    public string access_token
-	{
-        get { return accessToken; }
-		set { this.accessToken = value; }
-	}
-
-    public string token_type
-	{
-		get {   return tokenType; }
-		set {   this.tokenType = value; }
-	}
-
-    public string refresh_token
-	{
-		get {   return refreshToken; }
-		set {   this.refreshToken = value; }
-	}
+        public string refresh_token
+	    {
+		    get {   return refreshToken; }
+		    set {   this.refreshToken = value; }
+	    }
 	
-	public string Scope
-	{
-		get {   return scope; }
-		set {   this.scope = value; }
-	}
+	    public string Scope
+	    {
+		    get {   return scope; }
+		    set {   this.scope = value; }
+	    }
 
-    public int expires_in
-	{
-		get {   return expiresIn; }
-		set {   this.expiresIn = value; }
-	}
-}
+        public int expires_in
+	    {
+		    get {   return expiresIn; }
+		    set {   this.expiresIn = value; }
+	    }
+    }
 }

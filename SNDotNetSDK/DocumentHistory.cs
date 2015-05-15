@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This model object is used to get the document history of a specified document.
+     */
     public class DocumentHistory
     {
         public string email { get; set; }

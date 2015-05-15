@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp.Serializers;
-using Newtonsoft.Json;
-
+﻿
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This model class used to create the User in SignNow Application
+     */
     public class User {
         private string Id;
 

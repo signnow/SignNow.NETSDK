@@ -1,6 +1,11 @@
 ﻿
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This model class built to place the signature on the document.
+     */
     public class Signature : Fields
     {
         public int width { get; set; }

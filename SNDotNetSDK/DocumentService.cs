@@ -4,12 +4,18 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 namespace com.signnow.sdk.service.impl
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This class is used to perform operations on the Documents. This class is provides the guidle lines on how to call the SignNow API
+     * for several operations like Create (POST), GetDocuemnt (GET), Update Document (PUT), Get Document History, etc.,
+     */
     public class DocumentService : IDocumentService
     {
         static DocumentService()
@@ -21,12 +27,15 @@ namespace com.signnow.sdk.service.impl
 
         private static readonly ILog logger = LogManager.GetLogger(typeof(DocumentService));
 
+        /*
+         * This method is used to create  or POST the document for a given user in the SignNow Application
+         */
         public Document create(Oauth2Token token, Document documentPath)
         {
             Document document = null;
             try
             {
-                string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
+            string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
             logger.Debug("POSTING to /document \n" + requestBody);
             var client = new RestClient();
             client.BaseUrl = Config.getApiBase();
@@ -51,14 +60,18 @@ namespace com.signnow.sdk.service.impl
             return document;
         }
 
+        /*
+         * This method retrieves all the uploaded documents for the specified user.
+         */
         public Document[] getDocument(Oauth2Token token)
         {
             Document[] docs = new Document[100];
             try
             {
+                string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
+                logger.Debug("GET /user/documentsv2 \n" + requestBody);
                 var client = new RestClient();
                 client.BaseUrl = Config.getApiBase();
-
                 var request = new RestRequest("/user/documentsv2", Method.GET)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
@@ -91,9 +104,10 @@ namespace com.signnow.sdk.service.impl
             Document document = null;
             try
             {
+                string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
+                logger.Debug("GET /document/<id> \n" + requestBody);
                 var client = new RestClient();
                 client.BaseUrl = Config.getApiBase();
-
                 var request = new RestRequest("/document" + "/" +id, Method.GET)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
@@ -121,7 +135,7 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(fieldsMap, Formatting.Indented);
-                logger.Debug("PUT to /document/<id> \n" + requestBody);
+                logger.Debug("PUT /document/<id> \n" + requestBody);
                 var client = new RestClient();
                 client.BaseUrl = Config.getApiBase();
 
@@ -146,6 +160,9 @@ namespace com.signnow.sdk.service.impl
             return document;
         }
 
+        /*
+         * This method is used to (POST) invite the signers to sign on  the document in the SignNow Application
+         */
         public string invite(Oauth2Token token, Invitation invitation, string id)
         {
             string result = null;
@@ -212,13 +229,16 @@ namespace com.signnow.sdk.service.impl
             return result;
         }
 
+        /*
+         * This method Cancels an invite to a document.
+         */
         public string cancelInvite(Oauth2Token token, string id)
         {
             string result = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("POSTING to /document/id/fieldinvitecancel \n" + requestBody);
+                logger.Debug("PUT /document/id/fieldinvitecancel \n" + requestBody);
                 var client = new RestClient();
                 client.BaseUrl = Config.getApiBase();
 
@@ -241,6 +261,9 @@ namespace com.signnow.sdk.service.impl
             return result;
         }
 
+        /*
+         * This method is used to download (POST) the document as PDF for a given user from the SignNow Application
+         */
         public Document downLoadDocumentAsPDF(Oauth2Token token, string id)
         {
             Document document = null;
@@ -277,7 +300,7 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("POSTING to /document/<id>/history \n" + requestBody);
+                logger.Debug("GET /document/<id>/history \n" + requestBody);
                 var client = new RestClient();
                 client.BaseUrl = Config.getApiBase();
 
@@ -303,6 +326,9 @@ namespace com.signnow.sdk.service.impl
             return docshistory;
         }
 
+        /*
+         * This method is used to (POST)  create the template from a document in the SignNow Application
+         */
         public Template createTemplate(Oauth2Token token, Template template)
         {
             Template templ = null;
@@ -423,13 +449,16 @@ namespace com.signnow.sdk.service.impl
             return message;
         }
 
+        /*
+         This method is used to (POST) merge the new document from the given template id in the SignNow Application
+         */
         public byte[] mergeDocuments(Oauth2Token token, Hashtable myMergeMap)
         {
             byte[] arr = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(myMergeMap, Formatting.Indented);
-
+                logger.Debug("POST  to /document/merge \n" + requestBody);
                 var client = new RestClient();
                 client.BaseUrl = Config.getApiBase();
 
@@ -449,6 +478,99 @@ namespace com.signnow.sdk.service.impl
                 throw new SystemException();
             }
             return arr;
+        }
+
+        /*
+         This method is Used for creating webhooks that will be triggered when the specified event takes place.
+         */
+        public EventSubscription createEventSubscription(Oauth2Token token, EventSubscription events)
+        {
+            EventSubscription result = null;
+            try
+            {
+                string requestBody = JsonConvert.SerializeObject(events, Formatting.Indented);
+                logger.Debug("POST  to /event_subscription \n" + requestBody);
+                var client = new RestClient();
+                client.BaseUrl = Config.getApiBase();
+
+                var request = new RestRequest("/event_subscription", Method.POST)
+                        .AddHeader("Content-Type", "application/json")
+                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                request.AddParameter("text/json", requestBody, ParameterType.RequestBody);
+
+                var httpResponse = client.Execute(request);
+                string json = httpResponse.Content.ToString();
+                logger.Debug("Response Content is " + json);
+                result = JsonConvert.DeserializeObject<EventSubscription>(json);
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex.Message);
+                throw new SystemException();
+            }
+            return result;
+        }
+
+        /*
+         This method is used to Delete an event subscription.
+         */
+        public EventSubscription deleteEventSubscription(Oauth2Token token, string id)
+        {
+            EventSubscription result = null;
+            try
+            {
+                string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
+                logger.Debug("DELETE  /event_subscription/<subscription_id> \n" + requestBody);
+                var client = new RestClient();
+                client.BaseUrl = Config.getApiBase();
+
+                var request = new RestRequest("/event_subscription" + "/" +id, Method.DELETE)
+                        .AddHeader("Accept", "application/json")
+                        .AddHeader("Authorization", "Bearer " + token.access_token);
+
+                var httpResponse = client.Execute(request);
+                string json = httpResponse.Content.ToString();
+                logger.Debug("Response Content is " + json);
+                result = JsonConvert.DeserializeObject<EventSubscription>(json);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                throw new SystemException();
+            }
+            return result;
+        }
+
+        /*
+         This method Uploads a file that contains SignNow Document Field Tags (Simple Field tags only)
+         */
+        public Document createSimpleFieldTag(Oauth2Token token, Document documentPath)
+        {
+            Document document = null;
+            try
+            {
+                string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
+                logger.Debug("POSTING to /document/fieldextract \n" + requestBody);
+                var client = new RestClient();
+                client.BaseUrl = Config.getApiBase();
+
+                var request = new RestRequest("/document/fieldextract", Method.POST)
+                        .AddHeader("Authorization", "Bearer " + token.access_token)
+                        .AddHeader("Content-Type", "multipart/form-data");
+                request.AddFile("file", documentPath.filePath);
+
+                var httpResponse = client.Execute(request);
+
+                string json = httpResponse.Content.ToString();
+                logger.Debug("Response Content is " + json);
+                document = JsonConvert.DeserializeObject<Document>(json);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                throw new SystemException();
+            }
+            return document;
         }
     }
 }

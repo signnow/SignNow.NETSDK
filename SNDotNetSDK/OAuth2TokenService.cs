@@ -8,6 +8,11 @@ using System.IO;
 
 namespace com.signnow.sdk.service.impl
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This class is used to perform the OAuth2 token specific operations to access SignNow Application.
+     */
     public class OAuth2TokenService : IAuthenticationService
     {
         static OAuth2TokenService()

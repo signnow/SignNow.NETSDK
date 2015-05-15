@@ -1,6 +1,11 @@
 ﻿
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     *
+     * This model class is used to place the Texts on the documents for a given document ID.
+     */
     public class Text : Fields
     {
         public int size { get; set; }

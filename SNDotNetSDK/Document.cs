@@ -2,6 +2,11 @@
 
 namespace com.signnow.sdk.model
 {
+    /**
+     * Created by Deepak on 5/14/2015
+     * 
+     * This class is used to create the document model object
+     */
     public class Document
     {
         private string Id;
