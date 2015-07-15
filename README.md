@@ -37,8 +37,8 @@ To perform and test the Document specific test operations use DocumentServiceTes
 
 For a full list of accepted parameters, refer to the SignNow REST Endpoints API guide: [https://techlib.barracuda.com/SignNow/RestEndpointsAPI](https://techlib.barracuda.com/SignNow/RestEndpointsAPI).
 
-##### Initialize
-'''java
+## Initialize
+'''
 IUserService userService = new UserService();
 IAuthenticationService authenticationService = new OAuth2TokenService();
 IDocumentService documentService = new DocumentService();
