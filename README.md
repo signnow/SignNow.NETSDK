@@ -38,17 +38,15 @@ To perform and test the Document specific test operations use DocumentServiceTes
 For a full list of accepted parameters, refer to the SignNow REST Endpoints API guide: [https://techlib.barracuda.com/SignNow/RestEndpointsAPI](https://techlib.barracuda.com/SignNow/RestEndpointsAPI).
 
 ##### Initialize
-'''
 IUserService userService = new UserService();
 IAuthenticationService authenticationService = new OAuth2TokenService();
 IDocumentService documentService = new DocumentService();
-'''
+
 
 ##### Examples
 Below are examples.	
 
 ##### Create a User
-'''
 public void createUser()
 {
         String randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -60,9 +58,8 @@ public void createUser()
         Config config = new Config(apibase, clientID, clientSecret);User resultUser = userService.create(user);
         Console.WriteLine(resultUser.email + " " + resultUser.id);
 }
-'''
+
 ##### Get User
-'''
 public void getUser()
 {
 		String randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -79,9 +76,8 @@ public void getUser()
         User getUser = userService.get(resultUser);
 		Console.WriteLine("Result User ID" + getUser.id);
 }
-'''
+
 ##### Request Token
-'''
 public void requestToken()
 {
 		string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -96,9 +92,8 @@ public void requestToken()
 		Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
 		Console.WriteLine("Access Token" + requestedToken.access_token);        
 }
-'''
+
 ##### Verify Token
-'''
 public void verifyToken()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -114,9 +109,8 @@ public void verifyToken()
         Oauth2Token verifiedToken = authenticationService.verify(requestedToken);
 		Console.WriteLine("Verify Token", verifiedToken.access_token);
 }
-'''
+
 ##### Create Document
-'''
 public void createDocument()
 {
 		string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -139,9 +133,8 @@ public void createDocument()
         Document document = documentService.create(requestedToken, doc);
         Console.WriteLine("DocumentId", document.id);
 }
-'''
+
 ##### Get Document
-'''
 public void getDocument()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -164,9 +157,8 @@ public void getDocument()
         Document[] resultDoc =  documentService.getDocument(requestedToken);
         Console.WriteLine("resultDocid's", resultDoc.Length.ToString());
 }
-'''
+
 ##### Get Document By Id
-'''
 public void getDocumentbyId()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -189,9 +181,8 @@ public void getDocumentbyId()
         Document resultDoc = documentService.getDocumentbyId(requestedToken, document.id);
         Console.WriteLine("resultDocid", resultDoc.id);
 }
-'''
+
 ##### Update Document
-'''
 public void updateDocument()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -252,9 +243,8 @@ public void updateDocument()
 		Document resultDoc = documentService.updateDocument(requestedToken, fieldsMap, document.id);
 		Console.WriteLine("DocumentId", document.id);
 }
-'''
+
 ##### Invite Signers
-'''
 public void invite()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -281,9 +271,8 @@ public void invite()
 		string resinvite = documentService.invite(requestedToken, invitation, document.id);
         Console.WriteLine("success");
 }
-'''
+
 ##### Role Based Invite
-'''
 public void roleBasedInvite()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -368,9 +357,9 @@ public void roleBasedInvite()
 		string resinvite = documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
         Console.WriteLine("success");
 }
-'''
+
 ##### Cancel Invite
-'''
+
 public void cancelInvite()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -398,9 +387,8 @@ public void cancelInvite()
 		string cancelinvite = documentService.cancelInvite(requestedToken, document.id);
         Console.WriteLine("success");
 }
-'''
+
 ##### Download Document as PDF
-'''
 public void downLoadDocumentAsPDF()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -423,9 +411,8 @@ public void downLoadDocumentAsPDF()
         Document resdoc = documentService.downLoadDocumentAsPDF(requestedToken, document.id);
 		Console.WriteLine("Document Link", resdoc.link);
 }
-'''
+
 ##### Get Document History
-'''
 public void getDocumentHistory()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -448,9 +435,8 @@ public void getDocumentHistory()
         DocumentHistory[] dochistory = documentService.getDocumentHistory(requestedToken, document.id);
         Console.WriteLine("Ip Address :", dochistory[0].ip_address);
 }
-'''
+
 ##### Create Template
-'''
 public void createTemplate()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -477,9 +463,8 @@ public void createTemplate()
         Template resultTemplate = documentService.createTemplate(requestedToken, template);
         Console.WriteLine("template create result", resultTemplate.id);
 }
-'''
+
 ##### Create Document from Template
-'''
 public void createNewDocumentFromTemplate()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -508,9 +493,8 @@ public void createNewDocumentFromTemplate()
 		Template copyTemplate = documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
         Console.WriteLine("Document Id", copyTemplate.id);
 }
-'''
+
 ##### Download Collapsed Document
-'''
 public void downloadCollapsedDocument()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -538,9 +522,8 @@ public void downloadCollapsedDocument()
         }
         Console.WriteLine("Document Content", docarr.Length.ToString());
 }
-'''
+
 ##### Delete Document
-'''
 public void deleteDocument()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -563,9 +546,8 @@ public void deleteDocument()
         string confirm = documentService.deleteDocument(requestedToken, document.id);
         Console.WriteLine("success");
 }
-'''
+
 ##### Merge Documents
-'''
 public void mergeDocuments()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -602,9 +584,8 @@ public void mergeDocuments()
         }
         Console.WriteLine("Document Content", res.Length.ToString());
 }
-'''
+
 ##### Create Event Subscriptions
-'''
 public void createEventSubscription()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -623,9 +604,8 @@ public void createEventSubscription()
         EventSubscription res = documentService.createEventSubscription(requestedToken, evs);
         Console.WriteLine("Subscription Id Created", res.id);
 }
-'''
+
 ##### Delete Event Subscriptions
-'''
 public void deleteEventSubscription()
 {
         string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -645,7 +625,6 @@ public void deleteEventSubscription()
 		EventSubscription deleteEvent = documentService.deleteEventSubscription(requestedToken, res.id);
         Console.WriteLine("Deleted");
 }
-'''
 
 # Additional Contact Information
 
