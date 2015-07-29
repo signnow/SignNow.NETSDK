@@ -22,8 +22,8 @@ namespace SNDotNetSDK.Test
     public class DocumentServiceTest
     {
         static CopyClient copyclient;
-        private string inputdirPath = ConfigurationManager.AppSettings.Get("inputdirPath");
-        private string outputdirPath = ConfigurationManager.AppSettings.Get("outputdirPath");
+        private string inputdirPath = "inputdirPath";
+        private string outputdirPath = "outputdirPath";
 
         [ClassInitialize]
         public static void before(TestContext t)
