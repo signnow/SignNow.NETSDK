@@ -1,5 +1,8 @@
-﻿using com.signnow.sdk.model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SNDotNetSDK.Configuration;
+using SNDotNetSDK.Models;
+using SNDotNetSDK.Service;
+using SNDotNetSDK.ServiceImpl;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +11,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace com.signnow.sdk.service.impl
+namespace SNDotNetSDK.Test
 {
     /**
      * Created by Deepak on 5/14/2015
@@ -18,21 +21,15 @@ namespace com.signnow.sdk.service.impl
     [TestClass]
     public class DocumentServiceTest
     {
-        private static IUserService userService;
-        private static IAuthenticationService authenticationService;
-        private static IDocumentService documentService;
-        private string clientID = ConfigurationManager.AppSettings.Get("clientID");
-        private string clientSecret = ConfigurationManager.AppSettings.Get("clientSecret");
-        private string apibase = ConfigurationManager.AppSettings.Get("apibase");
+        static CopyClient copyclient;
         private string inputdirPath = ConfigurationManager.AppSettings.Get("inputdirPath");
         private string outputdirPath = ConfigurationManager.AppSettings.Get("outputdirPath");
 
         [ClassInitialize]
         public static void before(TestContext t)
         {
-            userService = new UserService();
-            authenticationService = new OAuth2TokenService();
-            documentService = new DocumentService();
+            Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
+            copyclient = new CopyClient(config);
         }
         
         /*
@@ -47,14 +44,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
-            
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -63,8 +59,8 @@ namespace com.signnow.sdk.service.impl
                 string[] docFilePath = Directory.GetFiles(@inputdirPath);
                 doc.filePath = docFilePath[0];
             }
-            
-            Document document = documentService.create(requestedToken, doc);
+
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
         }
 
@@ -80,14 +76,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -96,11 +91,11 @@ namespace com.signnow.sdk.service.impl
                 string[] docFilePath = Directory.GetFiles(@inputdirPath);
                 doc.filePath = docFilePath[0];
             }
-             
-            Document document = documentService.create(requestedToken, doc);
+
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            Document[] resultDoc =  documentService.getDocument(requestedToken);
+            Document[] resultDoc = copyclient.documentService.getDocument(requestedToken);
             Assert.IsNotNull("resultDocid's", resultDoc.Length.ToString());
         }
 
@@ -116,14 +111,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -133,10 +127,10 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            Document resultDoc = documentService.getDocumentbyId(requestedToken, document.id);
+            Document resultDoc = copyclient.documentService.getDocumentbyId(requestedToken, document.id);
             Assert.IsNotNull("resultDocid", resultDoc.id);
         }
 
@@ -152,14 +146,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
-           
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -169,7 +162,7 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             // Build the data for Signature Test
@@ -287,7 +280,7 @@ namespace com.signnow.sdk.service.impl
             fieldsMap.Add("checks", checksList);
             fieldsMap.Add("fields", fieldsList);
 
-            Document resultDoc = documentService.updateDocument(requestedToken, fieldsMap, document.id);
+            Document resultDoc = copyclient.documentService.updateDocument(requestedToken, fieldsMap, document.id);
 
             Assert.IsNotNull("DocumentId", document.id);
         }
@@ -321,14 +314,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -338,7 +330,7 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -346,7 +338,7 @@ namespace com.signnow.sdk.service.impl
             invitation.from = resultUser.email;
             invitation.to = toEmail;
 
-            string resinvite = documentService.invite(requestedToken, invitation, document.id);
+            string resinvite = copyclient.documentService.invite(requestedToken, invitation, document.id);
             Assert.AreEqual("success", resinvite);
         }
 
@@ -362,14 +354,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -379,7 +370,7 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             // Build the data for Signature Test
@@ -519,8 +510,8 @@ namespace com.signnow.sdk.service.impl
             fieldsMap.Add("checks", checksList);
             fieldsMap.Add("fields", fieldsList);
 
-            Document resultDoc = documentService.updateDocument(requestedToken, fieldsMap, document.id);
-            Document getDoc = documentService.getDocumentbyId(requestedToken, resultDoc.id);
+            Document resultDoc = copyclient.documentService.updateDocument(requestedToken, fieldsMap, document.id);
+            Document getDoc = copyclient.documentService.getDocumentbyId(requestedToken, resultDoc.id);
 
             Fields[] flds = getDoc.fields;
             List<System.Collections.Hashtable> roleMapList = new List<System.Collections.Hashtable>();
@@ -544,7 +535,7 @@ namespace com.signnow.sdk.service.impl
             emailSignature.message = resultUser.email + " asked you to sign this document";
             emailSignature.subject = "SignNow Invitation";
 
-            string resinvite = documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
+            string resinvite = copyclient.documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
             Assert.AreEqual("success", resinvite);
         }
 
@@ -560,14 +551,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -577,7 +567,7 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -585,10 +575,10 @@ namespace com.signnow.sdk.service.impl
             invitation.from = resultUser.email;
             invitation.to = toEmail;
 
-            string resinvite = documentService.invite(requestedToken, invitation, document.id);
+            string resinvite = copyclient.documentService.invite(requestedToken, invitation, document.id);
             Assert.AreEqual("success", resinvite);
 
-            string cancelinvite = documentService.cancelInvite(requestedToken, document.id);
+            string cancelinvite = copyclient.documentService.cancelInvite(requestedToken, document.id);
             Assert.AreEqual("success", cancelinvite);
         }
 
@@ -604,14 +594,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -621,9 +610,9 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
-            Document resdoc = documentService.downLoadDocumentAsPDF(requestedToken, document.id);
+            Document resdoc = copyclient.documentService.downLoadDocumentAsPDF(requestedToken, document.id);
 
             Assert.IsNotNull("Document Link", resdoc.link);
         }
@@ -640,14 +629,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -657,10 +645,10 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            DocumentHistory[] dochistory = documentService.getDocumentHistory(requestedToken, document.id);
+            DocumentHistory[] dochistory = copyclient.documentService.getDocumentHistory(requestedToken, document.id);
             Assert.IsNotNull("Ip Address :", dochistory[0].ip_address);
         }
 
@@ -676,14 +664,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -693,14 +680,14 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             Template template = new Template();
             template.document_id = document.id;
             template.document_name = "New Template";
 
-            Template resultTemplate = documentService.createTemplate(requestedToken, template);
+            Template resultTemplate = copyclient.documentService.createTemplate(requestedToken, template);
             Assert.IsNotNull("template create result", resultTemplate.id);
         }
 
@@ -716,14 +703,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -733,18 +719,18 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             Template template = new Template();
             template.document_id = document.id;
             template.document_name = "New Template-PostDoc28";
 
-            Template resultTemplate = documentService.createTemplate(requestedToken, template);
+            Template resultTemplate = copyclient.documentService.createTemplate(requestedToken, template);
             Assert.IsNotNull("template create result", resultTemplate.id);
             resultTemplate.document_name = "Copy Template-PostDoc28";
 
-            Template copyTemplate = documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
+            Template copyTemplate = copyclient.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
             Assert.IsNotNull("Document Id", copyTemplate.id);
         }
 
@@ -760,14 +746,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -777,10 +762,10 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            byte[] docarr = documentService.downloadCollapsedDocument(requestedToken, document.id);
+            byte[] docarr = copyclient.documentService.downloadCollapsedDocument(requestedToken, document.id);
             if(Directory.Exists(outputdirPath))
             {
                 string dest = outputdirPath + @"\" + document.id + ".pdf";
@@ -801,14 +786,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -818,10 +802,10 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            string confirm = documentService.deleteDocument(requestedToken, document.id);
+            string confirm = copyclient.documentService.deleteDocument(requestedToken, document.id);
             Assert.AreEqual("success", confirm);
         }
 
@@ -837,14 +821,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc1 = new Document();
@@ -855,9 +838,9 @@ namespace com.signnow.sdk.service.impl
                 doc1.filePath = docFilePath[0];
                 doc2.filePath = docFilePath[1];
             }
-            Document document1 = documentService.create(requestedToken, doc1);
+            Document document1 = copyclient.documentService.create(requestedToken, doc1);
             Assert.IsNotNull("DocumentId", document1.id);
-            Document document2 = documentService.create(requestedToken, doc2);
+            Document document2 = copyclient.documentService.create(requestedToken, doc2);
             Assert.IsNotNull("DocumentId", document2.id);
 
             List<string> docIds = new List<string>();
@@ -866,7 +849,7 @@ namespace com.signnow.sdk.service.impl
             Hashtable myMergeMap = new Hashtable();
             myMergeMap.Add("document_ids", docIds);
 
-            byte[] res = documentService.mergeDocuments(requestedToken, myMergeMap);
+            byte[] res = copyclient.documentService.mergeDocuments(requestedToken, myMergeMap);
             if (Directory.Exists(outputdirPath))
             {
                 string dest = outputdirPath + @"\Merge" + (document1.id.Substring(1, 4) + document2.id.Substring(1, 4)) + ".pdf";
@@ -887,20 +870,19 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             EventSubscription evs = new EventSubscription();
             evs.Event = "document.create";
             evs.callback_url = "https://www.myapp.com/path/to/callback.php";
-            EventSubscription res = documentService.createEventSubscription(requestedToken, evs);
+            EventSubscription res = copyclient.documentService.createEventSubscription(requestedToken, evs);
             Assert.IsNotNull("Subscription Id Created", res.id);
         }
 
@@ -916,23 +898,22 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             EventSubscription evs = new EventSubscription();
             evs.Event = "document.create";
             evs.callback_url = "https://www.myapp.com/path/to/callback.php";
-            EventSubscription res = documentService.createEventSubscription(requestedToken, evs);
+            EventSubscription res = copyclient.documentService.createEventSubscription(requestedToken, evs);
             Assert.IsNotNull("Subscription Id Created", res.id);
 
-            EventSubscription deleteEvent = documentService.deleteEventSubscription(requestedToken, res.id);
+            EventSubscription deleteEvent = copyclient.documentService.deleteEventSubscription(requestedToken, res.id);
             Assert.AreEqual("deleted", deleteEvent.status);
         }
 
@@ -949,14 +930,13 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -966,7 +946,7 @@ namespace com.signnow.sdk.service.impl
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = documentService.create(requestedToken, doc);
+            Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
         }
     }

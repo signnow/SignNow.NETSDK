@@ -1,8 +1,8 @@
-﻿using com.signnow.sdk.model;
+﻿using SNDotNetSDK.Models;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace com.signnow.sdk.service
+namespace SNDotNetSDK.Service
 {
     /**
      * Created by Deepak on 5/14/2015

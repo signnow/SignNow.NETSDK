@@ -1,9 +1,11 @@
-﻿using com.signnow.sdk.model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SNDotNetSDK.Configuration;
+using SNDotNetSDK.Models;
+using SNDotNetSDK.Service;
 using System;
 using System.Configuration;
 
-namespace com.signnow.sdk.service.impl
+namespace SNDotNetSDK.Test
 {
     /**
      * Created by Deepak on 5/14/2015
@@ -13,17 +15,12 @@ namespace com.signnow.sdk.service.impl
     [TestClass]
     public class UserServiceTest
     {
-        private static IUserService userService;
-        private static IAuthenticationService authenticationService;
-        private string clientID = ConfigurationManager.AppSettings.Get("clientID");
-        private string clientSecret = ConfigurationManager.AppSettings.Get("clientSecret");
-        private string apibase = ConfigurationManager.AppSettings.Get("apibase");
-
+        static CopyClient copyclient;
         [ClassInitialize]
         public static void before(TestContext t)
         {
-            userService = new UserService();
-            authenticationService = new OAuth2TokenService();
+            Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
+            copyclient = new CopyClient(config);
         }
 
         [TestMethod]
@@ -34,9 +31,8 @@ namespace com.signnow.sdk.service.impl
         user.password = "fakePassword";
         user.first_name = "firstName";
         user.last_name = "LastName";
-        Config config = new Config(apibase, clientID, clientSecret);
 
-        User resultUser = userService.create(user);
+        User resultUser = copyclient.userService.create(user);
         
         Assert.IsNotNull("No user id from creating user", resultUser.id);
         
@@ -52,19 +48,18 @@ namespace com.signnow.sdk.service.impl
             user.password = "fakePassword";
             user.first_name = "firstName";
             user.last_name = "LastName";
-            Config config = new Config(apibase, clientID, clientSecret);
 
-            User resultUser = userService.create(user);
+            User resultUser = copyclient.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
-            
-            Oauth2Token requestedToken = authenticationService.requestToken(resultUser);
+
+            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             resultUser.oauth2Token = requestedToken;
 
-            User getUser = userService.get(resultUser);
+            User getUser = copyclient.userService.get(resultUser.oauth2Token.access_token);
             Assert.AreEqual(resultUser.id, getUser.id, "Found");
         }
     }

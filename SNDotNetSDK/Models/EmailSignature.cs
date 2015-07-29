@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 
-namespace com.signnow.sdk.model
+namespace SNDotNetSDK.Models
 {
     /**
      * Created by Deepak on 5/14/2015

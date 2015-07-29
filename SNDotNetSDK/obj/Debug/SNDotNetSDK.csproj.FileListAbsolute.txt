@@ -1,11 +1,9 @@
-D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\SNDotNetSDK.dll.config
-D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\SNDotNetSDK.dll
 D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\SNDotNetSDK.pdb
-D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\log4net.dll
 D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\Newtonsoft.Json.dll
 D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\RestSharp.dll
-D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\log4net.xml
 D:\SNDotNetSDK\SNDotNetSDK\obj\Debug\SNDotNetSDK.Properties.Resources.resources
 D:\SNDotNetSDK\SNDotNetSDK\obj\Debug\SNDotNetSDK.csproj.GenerateResource.Cache
-D:\SNDotNetSDK\SNDotNetSDK\obj\Debug\SNDotNetSDK.dll
 D:\SNDotNetSDK\SNDotNetSDK\obj\Debug\SNDotNetSDK.pdb
+D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\SNDotNetSDK.exe.config
+D:\SNDotNetSDK\SNDotNetSDK\bin\Debug\SNDotNetSDK.exe
+D:\SNDotNetSDK\SNDotNetSDK\obj\Debug\SNDotNetSDK.exe

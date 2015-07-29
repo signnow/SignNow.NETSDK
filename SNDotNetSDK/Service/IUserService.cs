@@ -1,6 +1,5 @@
-﻿using com.signnow.sdk.model;
-
-namespace com.signnow.sdk.service
+﻿using SNDotNetSDK.Models;
+namespace SNDotNetSDK.Service
 {
     /**
      * Created by Deepak on 5/14/2015
@@ -24,6 +23,6 @@ namespace com.signnow.sdk.service
          * @param user
          * @return
          */
-        User get(User user);
+        User get(string access_token);
     }
 }

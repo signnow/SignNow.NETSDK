@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{93A99C97-D139-4095-8220-9993DEBB7F37}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SNDotNetSDK</RootNamespace>
     <AssemblyName>SNDotNetSDK</AssemblyName>
@@ -50,9 +50,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="RestSharp">
@@ -69,41 +66,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Checkbox.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Document.cs" />
-    <Compile Include="DocumentHistory.cs" />
-    <Compile Include="DocumentService.cs" />
-    <Compile Include="DocumentServiceTest.cs" />
-    <Compile Include="EmailSignature.cs" />
-    <Compile Include="EventSubscription.cs" />
-    <Compile Include="Fields.cs" />
-    <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="IDocumentService.cs" />
-    <Compile Include="Invitation.cs" />
-    <Compile Include="IUserService.cs" />
-    <Compile Include="OAuth2TokenService.cs" />
-    <Compile Include="Oauth2TokenServiceTest.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Configuration\IConfig.cs" />
+    <Compile Include="CopyClient.cs" />
+    <Compile Include="Models\Checkbox.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\DocumentHistory.cs" />
+    <Compile Include="ServiceImpl\DocumentService.cs" />
+    <Compile Include="Test\DocumentServiceTest.cs" />
+    <Compile Include="Models\EmailSignature.cs" />
+    <Compile Include="Models\EventSubscription.cs" />
+    <Compile Include="Models\Fields.cs" />
+    <Compile Include="Service\IAuthenticationService.cs" />
+    <Compile Include="Service\IDocumentService.cs" />
+    <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Service\IUserService.cs" />
+    <Compile Include="ServiceImpl\OAuth2TokenService.cs" />
+    <Compile Include="Test\Oauth2TokenServiceTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Radio.cs" />
-    <Compile Include="Signature.cs" />
-    <Compile Include="Template.cs" />
-    <Compile Include="Text.cs" />
-    <Compile Include="UserService.cs" />
-    <Compile Include="UserServiceTest.cs" />
-    <Compile Include="Oauth2Token.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Models\Radio.cs" />
+    <Compile Include="Models\Signature.cs" />
+    <Compile Include="Models\Template.cs" />
+    <Compile Include="Models\Text.cs" />
+    <Compile Include="ServiceImpl\UserService.cs" />
+    <Compile Include="Test\UserServiceTest.cs" />
+    <Compile Include="Models\Oauth2Token.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="log4.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +137,7 @@
   <ItemGroup>
     <None Include="Resources\SignatureImage1.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

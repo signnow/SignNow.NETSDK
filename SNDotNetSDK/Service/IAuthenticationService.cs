@@ -1,6 +1,5 @@
-﻿using com.signnow.sdk.model;
-
-namespace com.signnow.sdk.service
+﻿using SNDotNetSDK.Models;
+namespace SNDotNetSDK.Service
 {
     /**
      * Created by Deepak on 5/14/2015
@@ -23,6 +22,6 @@ namespace com.signnow.sdk.service
         *
         * @return
         */
-        Oauth2Token verify(Oauth2Token token);
+        Oauth2Token verify(string token);
     }
 }

@@ -1,14 +1,13 @@
-﻿using com.signnow.sdk.model;
-using log4net;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using SNDotNetSDK.Configuration;
+using SNDotNetSDK.Models;
+using SNDotNetSDK.Service;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-namespace com.signnow.sdk.service.impl
+namespace SNDotNetSDK.ServiceImpl
 {
     /**
      * Created by Deepak on 5/14/2015
@@ -18,15 +17,11 @@ namespace com.signnow.sdk.service.impl
      */
     public class DocumentService : IDocumentService
     {
-        static DocumentService()
+        private Config copyConfig;
+        public DocumentService(Config copyConfig)
         {
-            string log4 = ConfigurationManager.AppSettings.Get("log4net.Config");
-            FileInfo finfo = new FileInfo(log4);
-            log4net.Config.XmlConfigurator.Configure(finfo);
+            this.copyConfig = copyConfig;
         }
-
-        private static readonly ILog logger = LogManager.GetLogger(typeof(DocumentService));
-
         /*
          * This method is used to create  or POST the document for a given user in the SignNow Application
          */
@@ -36,9 +31,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
             string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
-            logger.Debug("POSTING to /document \n" + requestBody);
             var client = new RestClient();
-            client.BaseUrl = Config.getApiBase();
+            client.BaseUrl = copyConfig.getApiBase();
 
             var request = new RestRequest("/document", Method.POST)
                     .AddHeader("Accept", "application/json")
@@ -49,12 +43,10 @@ namespace com.signnow.sdk.service.impl
             var httpResponse = client.Execute(request);
        
             string json = httpResponse.Content.ToString();
-            logger.Debug("Response Content is " + json);
             document = JsonConvert.DeserializeObject<Document>(json);
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return document;
@@ -69,16 +61,14 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("GET /user/documentsv2 \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
                 var request = new RestRequest("/user/documentsv2", Method.GET)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
 
                 JArray jar = JArray.Parse(json);
                 int i=0;
@@ -90,7 +80,6 @@ namespace com.signnow.sdk.service.impl
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return docs;
@@ -105,22 +94,19 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("GET /document/<id> \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
                 var request = new RestRequest("/document" + "/" +id, Method.GET)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
 
                 document = JsonConvert.DeserializeObject<Document>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return document;
@@ -135,9 +121,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(fieldsMap, Formatting.Indented);
-                logger.Debug("PUT /document/<id> \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" +id, Method.PUT)
                         .AddHeader("Accept", "application/json")
@@ -148,13 +133,11 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
 
                 document = JsonConvert.DeserializeObject<Document>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return document;
@@ -169,9 +152,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(invitation, Formatting.Indented);
-                logger.Debug("POSTING to /document/id/invite \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/invite?email=disable", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -183,13 +165,11 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 JObject res = JObject.Parse(json);
                 result = res["result"].ToString();
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return result;
@@ -204,9 +184,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(emailSignature, Formatting.Indented);
-                logger.Debug("POSTING to /document/id/invite \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/invite", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -217,13 +196,11 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 JObject job = JObject.Parse(json);
                 result = job["status"].ToString();
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return result;
@@ -238,9 +215,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("PUT /document/id/fieldinvitecancel \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/fieldinvitecancel", Method.PUT)
                         .AddHeader("Accept", "application/json")
@@ -249,13 +225,11 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 JObject job = JObject.Parse(json);
                 result = job["status"].ToString();
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return result;
@@ -270,9 +244,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("POSTING to /document/id/download/link \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/download/link", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -280,12 +253,10 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 document = JsonConvert.DeserializeObject<Document>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return document;
@@ -300,16 +271,14 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("GET /document/<id>/history \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/history", Method.GET)
                                    .AddHeader("Authorization", "Bearer " + token.access_token);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 JArray jarr = JArray.Parse(json);
                 int i = 0;
                 foreach (JObject jobj in jarr)
@@ -320,7 +289,6 @@ namespace com.signnow.sdk.service.impl
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return docshistory;
@@ -335,9 +303,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(template, Formatting.Indented);
-                logger.Debug("POST  to /template \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/template", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -348,12 +315,10 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 templ = JsonConvert.DeserializeObject<Template>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return templ;
@@ -368,9 +333,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(template, Formatting.Indented);
-                logger.Debug("POST  to /template/id/copy \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/template" + "/" + template.id + "/copy", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -381,12 +345,10 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 templ = JsonConvert.DeserializeObject<Template>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return templ;
@@ -401,19 +363,16 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("GET  to /document/<id>/download \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/download?type=collapsed", Method.GET)
                         .AddHeader("Authorization", "Bearer " + token.access_token);
                 var httpResponse = client.Execute(request);
                 arr = httpResponse.RawBytes;
-                logger.Debug("Response Content is in Byte Array Form");
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return arr;
@@ -428,22 +387,19 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("DELETE /document/<id> \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id, Method.DELETE)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Status Message"+json);
                 JObject obj = JObject.Parse(json);
                 message = obj["status"].ToString();
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return message;
@@ -458,9 +414,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(myMergeMap, Formatting.Indented);
-                logger.Debug("POST  to /document/merge \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document/merge", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -469,12 +424,10 @@ namespace com.signnow.sdk.service.impl
                 request.AddParameter("text/json", requestBody, ParameterType.RequestBody);
 
                 var httpResponse = client.Execute(request);
-                arr = httpResponse.RawBytes;
-                logger.Debug("Response Content is in Byte Array Form");   
+                arr = httpResponse.RawBytes;  
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return arr;
@@ -489,9 +442,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(events, Formatting.Indented);
-                logger.Debug("POST  to /event_subscription \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/event_subscription", Method.POST)
                         .AddHeader("Content-Type", "application/json")
@@ -500,12 +452,10 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 result = JsonConvert.DeserializeObject<EventSubscription>(json);
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return result;
@@ -520,9 +470,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
-                logger.Debug("DELETE  /event_subscription/<subscription_id> \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/event_subscription" + "/" +id, Method.DELETE)
                         .AddHeader("Accept", "application/json")
@@ -530,12 +479,10 @@ namespace com.signnow.sdk.service.impl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 result = JsonConvert.DeserializeObject<EventSubscription>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return result;
@@ -550,9 +497,8 @@ namespace com.signnow.sdk.service.impl
             try
             {
                 string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
-                logger.Debug("POSTING to /document/fieldextract \n" + requestBody);
                 var client = new RestClient();
-                client.BaseUrl = Config.getApiBase();
+                client.BaseUrl = copyConfig.getApiBase();
 
                 var request = new RestRequest("/document/fieldextract", Method.POST)
                         .AddHeader("Authorization", "Bearer " + token.access_token)
@@ -562,12 +508,10 @@ namespace com.signnow.sdk.service.impl
                 var httpResponse = client.Execute(request);
 
                 string json = httpResponse.Content.ToString();
-                logger.Debug("Response Content is " + json);
                 document = JsonConvert.DeserializeObject<Document>(json);
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
                 throw new SystemException();
             }
             return document;
