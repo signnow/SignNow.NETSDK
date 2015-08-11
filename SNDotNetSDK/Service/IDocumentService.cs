@@ -13,7 +13,7 @@ namespace SNDotNetSDK.Service
     {
         Document create(Oauth2Token token, Document documentPath);
 
-        Document[] getDocument(Oauth2Token token);
+        Document[] getDocuments(Oauth2Token token);
 
         Document getDocumentbyId(Oauth2Token token, string id);
 
@@ -25,7 +25,7 @@ namespace SNDotNetSDK.Service
 
         string cancelInvite(Oauth2Token token, string id);
 
-        Document downLoadDocumentAsPDF(Oauth2Token token, string id);
+        Document shareDocument(Oauth2Token token, string id);
 
         DocumentHistory[] getDocumentHistory(Oauth2Token token, string id);
 

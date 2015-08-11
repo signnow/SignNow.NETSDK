@@ -68,7 +68,7 @@ namespace SNDotNetSDK.Test
          * This test method is used to get all the documents in the form of array for the specified user.
          */
         [TestMethod]
-        public void getDocument()
+        public void getDocuments()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
@@ -95,7 +95,7 @@ namespace SNDotNetSDK.Test
             Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            Document[] resultDoc = copyclient.documentService.getDocument(requestedToken);
+            Document[] resultDoc = copyclient.documentService.getDocuments(requestedToken);
             Assert.IsNotNull("resultDocid's", resultDoc.Length.ToString());
         }
 
@@ -586,7 +586,7 @@ namespace SNDotNetSDK.Test
          * This test method is used to GET a Document as PDF in SignNow Application
          */
         [TestMethod]
-        public void downLoadDocumentAsPDF()
+        public void shareDocument()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
@@ -612,7 +612,7 @@ namespace SNDotNetSDK.Test
 
             Document document = copyclient.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
-            Document resdoc = copyclient.documentService.downLoadDocumentAsPDF(requestedToken, document.id);
+            Document resdoc = copyclient.documentService.shareDocument(requestedToken, document.id);
 
             Assert.IsNotNull("Document Link", resdoc.link);
         }

@@ -55,7 +55,7 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method retrieves all the uploaded documents for the specified user.
          */
-        public Document[] getDocument(Oauth2Token token)
+        public Document[] getDocuments(Oauth2Token token)
         {
             Document[] docs = new Document[100];
             try
@@ -238,7 +238,7 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to download (POST) the document as PDF for a given user from the SignNow Application
          */
-        public Document downLoadDocumentAsPDF(Oauth2Token token, string id)
+        public Document shareDocument(Oauth2Token token, string id)
         {
             Document document = null;
             try
