@@ -70,6 +70,6 @@ namespace SNDotNetSDK.ServiceImpl
             throw new SystemException();
         }
         return getUser;
-    }
+      }
     }
 }
