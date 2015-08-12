@@ -10,20 +10,23 @@ If you have questions about the SignNow API, please visit https://techlib.barrac
 
 See additional contact information at the bottom.
 
+####Installation
+To install CudaSign, run the following command in the Package Manager Console
 
-##User
+PM> Install-Package CudaSign
 
-To Create and Retrieve the User to/from SigNow Application use the UserServiceTest.
 
-##Token 
+####Examples
+To run the examples you will need an API key. You can get one here https://signnow.com/l/api/request_information. 
+For a full list of accepted parameters, refer to the SignNow REST Endpoints API guide: https://techlib.barracuda.com/SignNow/RestEndpointsAPI.
 
-To perform Token related operations use the Oauth2TokenServiceTest.
+The SDK is accessed using "SNDotNetSDK" Namespace:
+```
+using SNDotNetSDK;
+using SNDotNetSDK.ServiceImpl;
+using SNDotNetSDK.Models;
+```
 
-##Document Service
-
-To perform and test the Document specific test operations use DocumentServiceTest.
-
-For a full list of accepted parameters, refer to the SignNow REST Endpoints API guide: [https://techlib.barracuda.com/SignNow/RestEndpointsAPI](https://techlib.barracuda.com/SignNow/RestEndpointsAPI).
 
 ## Initialize
 ```
