@@ -21,5 +21,9 @@ namespace SNDotNetSDK.Models
         public string updated { get; set; }
 
         public string status { get; set; }
+
+        public string error { get; set; }
+
+        public int code { get; set; }
     }
 }

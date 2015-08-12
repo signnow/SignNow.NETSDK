@@ -13,5 +13,9 @@ namespace SNDotNetSDK.Models
         public string document_name { get; set; }
 
         public string id { get; set; }
+
+        public string error { get; set; }
+
+        public int code { get; set; }
     }
 }

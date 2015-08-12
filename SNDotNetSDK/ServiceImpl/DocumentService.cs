@@ -70,13 +70,21 @@ namespace SNDotNetSDK.ServiceImpl
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
 
-                JArray jar = JArray.Parse(json);
-                int i=0;
-                foreach (JObject jobj in jar)
+                if(httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
-                    docs[i] = JsonConvert.DeserializeObject<Document>(jobj.ToString());
-                    i++;
+                    JArray jar = JArray.Parse(json);
+                    int i = 0;
+                    foreach (JObject jobj in jar)
+                    {
+                        docs[i] = JsonConvert.DeserializeObject<Document>(jobj.ToString());
+                        i++;
+                    }
                 }
+                else if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+                {
+                    docs[0] = JsonConvert.DeserializeObject<Document>(json);
+                }
+               
             }
             catch (Exception ex)
             {
@@ -166,7 +174,14 @@ namespace SNDotNetSDK.ServiceImpl
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
                 JObject res = JObject.Parse(json);
-                result = res["result"].ToString();
+                if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                {
+                    result = res["result"].ToString();
+                }
+                else if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+                {
+                    result = res["error"].ToString();
+                }
             }
             catch(Exception ex)
             {
@@ -197,7 +212,14 @@ namespace SNDotNetSDK.ServiceImpl
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
                 JObject job = JObject.Parse(json);
-                result = job["status"].ToString();
+                if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                {
+                    result = job["status"].ToString();
+                }
+                else if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+                {
+                    result = job["error"].ToString();
+                }
             }
             catch(Exception ex)
             {
@@ -226,7 +248,14 @@ namespace SNDotNetSDK.ServiceImpl
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
                 JObject job = JObject.Parse(json);
-                result = job["status"].ToString();
+                if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                {
+                    result = job["status"].ToString();
+                }
+                else if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+                {
+                    result = job["error"].ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -279,12 +308,20 @@ namespace SNDotNetSDK.ServiceImpl
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
-                JArray jarr = JArray.Parse(json);
-                int i = 0;
-                foreach (JObject jobj in jarr)
+
+                if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
-                    docshistory[i] = JsonConvert.DeserializeObject<DocumentHistory>(jobj.ToString());
-                    i++;
+                    JArray jarr = JArray.Parse(json);
+                    int i = 0;
+                    foreach (JObject jobj in jarr)
+                    {
+                        docshistory[i] = JsonConvert.DeserializeObject<DocumentHistory>(jobj.ToString());
+                        i++;
+                    }
+                }
+                else if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+                {
+                    docshistory[0] = JsonConvert.DeserializeObject<DocumentHistory>(json); ;
                 }
             }
             catch(Exception ex)
@@ -396,7 +433,14 @@ namespace SNDotNetSDK.ServiceImpl
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
                 JObject obj = JObject.Parse(json);
-                message = obj["status"].ToString();
+                if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                {
+                    message = obj["status"].ToString();
+                }
+                else if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.BadRequest))
+                {
+                    message = obj["error"].ToString();
+                }
             }
             catch (Exception ex)
             {

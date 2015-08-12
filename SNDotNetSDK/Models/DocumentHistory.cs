@@ -19,5 +19,8 @@ namespace SNDotNetSDK.Models
         public string origin { get; set; }
         public string version { get; set; }
         public string client_timestamp { get; set; }
+        public string error { get; set; }
+
+        public int code { get; set; }
     }
 }

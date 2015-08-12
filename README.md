@@ -26,7 +26,7 @@ using SNDotNetSDK;
 using SNDotNetSDK.ServiceImpl;
 using SNDotNetSDK.Models;
 ```
-
+Every resource returns either the result parameter or the error parameter(if occurs).
 
 ## Initialize
 ```
@@ -45,6 +45,14 @@ public void createUser()
         user.first_name = "firstName";
         user.last_name = "LastName";
         User resultUser = copyclient.userService.create(user);
+		if(resultUser.error == null)
+		{
+			Console.WriteLine(resultUser.email);
+		}
+		else
+		{
+			Console.WriteLine("Error "+resultUser.error+"occurs with status code "+resultUser.code);
+		}
 }
 ```
 ## Get User
@@ -85,6 +93,14 @@ public void createDocument()
             doc.filePath = docFilePath[0];
         }
         Document document = copyclient.documentService.create(requestedToken, doc);
+		if(document.error == null)
+		{
+			Console.WriteLine(document.id);
+		}
+		else
+		{
+			Console.WriteLine("Error "+document.error+"occurs with status code "+document.code);
+		}
 }
 ```
 
@@ -93,6 +109,10 @@ public void createDocument()
 public void getDocument()
 {
         Document[] resultDoc = copyclient.documentService.getDocuments(requestedToken);
+		if(resultDoc[0].error != null)
+		{
+			Console.WriteLine("Error "+resultDoc[0].error+"occurs with status code "+resultDoc[0].code);
+		}
 }
 ```
 
@@ -158,6 +178,10 @@ public void invite()
         invitation.from = resultUser.email;
         invitation.to = toEmail;
 		string resinvite = copyclient.documentService.invite(requestedToken, invitation, document.id);
+		if(!resinvite.Equals("Success"))
+		{
+			Console.WriteLine("Error occurs "+resinvite);
+		}
 }
 ```
 

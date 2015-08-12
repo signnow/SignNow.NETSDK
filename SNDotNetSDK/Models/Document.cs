@@ -14,6 +14,9 @@ namespace SNDotNetSDK.Models
         private String Link;
         private String FilePath;
         private Fields[] Fields;
+        private string Error;
+
+        private int Code;
 
         public string id
         {
@@ -43,6 +46,18 @@ namespace SNDotNetSDK.Models
         {
             get { return Fields; }
             set { this.Fields = value; }
+        }
+
+        public string error
+        {
+            get { return Error; }
+            set { this.Error = value; }
+        }
+
+        public int code
+        {
+            get { return Code; }
+            set { this.Code = value; }
         }
     }
 }

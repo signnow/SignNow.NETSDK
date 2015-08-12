@@ -8,7 +8,7 @@ namespace SNDotNetSDK.Models
      */
     public class Oauth2Token
     {
-    
+
         private string accessToken;
 
         private string tokenType;
@@ -19,34 +19,50 @@ namespace SNDotNetSDK.Models
 
         private int expiresIn;
 
+        private string Error;
+
+        private int Code;
+
         public string access_token
-	    {
+        {
             get { return accessToken; }
-		    set { this.accessToken = value; }
-	    }
+            set { this.accessToken = value; }
+        }
 
         public string token_type
-	    {
-		    get {   return tokenType; }
-		    set {   this.tokenType = value; }
-	    }
+        {
+            get { return tokenType; }
+            set { this.tokenType = value; }
+        }
 
         public string refresh_token
-	    {
-		    get {   return refreshToken; }
-		    set {   this.refreshToken = value; }
-	    }
-	
-	    public string Scope
-	    {
-		    get {   return scope; }
-		    set {   this.scope = value; }
-	    }
+        {
+            get { return refreshToken; }
+            set { this.refreshToken = value; }
+        }
+
+        public string Scope
+        {
+            get { return scope; }
+            set { this.scope = value; }
+        }
 
         public int expires_in
-	    {
-		    get {   return expiresIn; }
-		    set {   this.expiresIn = value; }
-	    }
+        {
+            get { return expiresIn; }
+            set { this.expiresIn = value; }
+        }
+
+        public string error
+        {
+            get { return Error; }
+            set { this.Error = value; }
+        }
+
+        public int code
+        {
+            get { return Code; }
+            set { this.Code = value; }
+        }
     }
 }
