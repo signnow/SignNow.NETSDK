@@ -1,7 +1,3 @@
- SignNowDotNetSDK
- ===============
-A UnitTest Project using REST Endpoints API.
-
 #### About SignNow
 SignNow by Barracuda is an eSigning platform that offers a cloud version, a physical appliance and also a virtual appliance. Backed by Barracuda’s industry-leading security infrastructure, SignNow is fully compliant with eSigning laws and encrypts all data in transit. Users can share, manage and access their documents with confidence. It’s never been easier to get legally binding signatures from customers, partners, and employees - in seconds using any device.
 
@@ -19,6 +15,9 @@ PM> Install-Package CudaSign
 ####Examples
 To run the examples you will need an API key. You can get one here https://signnow.com/l/api/request_information. 
 For a full list of accepted parameters, refer to the SignNow REST Endpoints API guide: https://techlib.barracuda.com/SignNow/RestEndpointsAPI.
+```
+Refer to Test Package for code samples.
+```
 
 The SDK is accessed using "SNDotNetSDK" Namespace:
 ```
