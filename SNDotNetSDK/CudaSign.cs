@@ -4,21 +4,21 @@ using SNDotNetSDK.ServiceImpl;
 
 namespace SNDotNetSDK
 {
-    public class CopyClient
+    public class CudaSign
     {
-        private Config copyConfig;
+        private Config config;
 
-        public CopyClient(IConfig copyConfig)
+        public CudaSign(IConfig config)
         {
-            this.copyConfig = (Config) copyConfig;
+            this.config = (Config)config;
             InitServices();
         }
 
         private void InitServices()
         {
-            userService = new UserService(copyConfig);
-            authenticationService = new OAuth2TokenService(copyConfig);
-            documentService = new DocumentService(copyConfig);
+            userService = new UserService(config);
+            authenticationService = new OAuth2TokenService(config);
+            documentService = new DocumentService(config);
         }
 
         public IUserService userService { get; private set; }

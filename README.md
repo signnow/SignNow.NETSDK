@@ -31,7 +31,7 @@ Every resource returns either the result parameter or the error parameter(if occ
 ## Initialize
 ```
 Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
-CopyClient copyclient = new CopyClient(config);
+CudaSign cudasign = new CudaSign(config);
 ```
 
 ## Create a User
@@ -44,7 +44,7 @@ public void createUser()
         user.password = "fakePassword";
         user.first_name = "firstName";
         user.last_name = "LastName";
-        User resultUser = copyclient.userService.create(user);
+        User resultUser = cudasign.userService.create(user);
 		if(resultUser.error == null)
 		{
 			Console.WriteLine(resultUser.email);
@@ -59,7 +59,7 @@ public void createUser()
 ```
 public void getUser()
 {
-		User resultUser = copyclient.userService.get(resultUser.oauth2Token.access_token);
+		User resultUser = cudasign.userService.get(resultUser.oauth2Token.access_token);
 }
 ```
 ## Request Token
@@ -69,7 +69,7 @@ public void requestToken()
 		User user = new User();
 		user.email = resultUser.email;
 		user.password = "fakePassword";
-		Oauth2Token requestedToken = copyclient.authenticationService.requestToken(user);       
+		Oauth2Token requestedToken = cudasign.authenticationService.requestToken(user);       
 }
 ```
 
@@ -77,7 +77,7 @@ public void requestToken()
 ```
 public void verifyToken()
 {
-        Oauth2Token verifiedToken = copyclient.authenticationService.verify(requestedToken.access_token);
+        Oauth2Token verifiedToken = cudasign.authenticationService.verify(requestedToken.access_token);
 }
 ```
 
@@ -92,7 +92,7 @@ public void createDocument()
             string[] docFilePath = Directory.GetFiles(@inputdirPath);
             doc.filePath = docFilePath[0];
         }
-        Document document = copyclient.documentService.create(requestedToken, doc);
+        Document document = cudasign.documentService.create(requestedToken, doc);
 		if(document.error == null)
 		{
 			Console.WriteLine(document.id);
@@ -108,7 +108,7 @@ public void createDocument()
 ```
 public void getDocument()
 {
-        Document[] resultDoc = copyclient.documentService.getDocuments(requestedToken);
+        Document[] resultDoc = cudasign.documentService.getDocuments(requestedToken);
 		if(resultDoc[0].error != null)
 		{
 			Console.WriteLine("Error "+resultDoc[0].error+"occurs with status code "+resultDoc[0].code);
@@ -120,7 +120,7 @@ public void getDocument()
 ```
 public void getDocumentbyId()
 {
-        Document resultDoc = copyclient.documentService.getDocumentbyId(requestedToken, document.id);
+        Document resultDoc = cudasign.documentService.getDocumentbyId(requestedToken, document.id);
 }
 ```
 
@@ -165,7 +165,7 @@ public void updateDocument()
         fieldsMap.Add("texts", textsList);
         fieldsMap.Add("checks", checksList);
 		
-		Document resultDoc = copyclient.documentService.updateDocument(requestedToken, fieldsMap, document.id);
+		Document resultDoc = cudasign.documentService.updateDocument(requestedToken, fieldsMap, document.id);
 }
 ```
 
@@ -177,7 +177,7 @@ public void invite()
         Invitation invitation = new Invitation();
         invitation.from = resultUser.email;
         invitation.to = toEmail;
-		string resinvite = copyclient.documentService.invite(requestedToken, invitation, document.id);
+		string resinvite = cudasign.documentService.invite(requestedToken, invitation, document.id);
 		if(!resinvite.Equals("Success"))
 		{
 			Console.WriteLine("Error occurs "+resinvite);
@@ -189,7 +189,7 @@ public void invite()
 ```
 public void roleBasedInvite()
 {   
-		Document getDoc = copyclient.documentService.getDocumentbyId(requestedToken, document.id);
+		Document getDoc = cudasign.documentService.getDocumentbyId(requestedToken, document.id);
 	    Fields[] flds = getDoc.fields;
         List<System.Collections.Hashtable> roleMapList = new List<System.Collections.Hashtable>();
         EmailSignature emailSignature = new EmailSignature();
@@ -211,7 +211,7 @@ public void roleBasedInvite()
         emailSignature.cc = ccuser;
         emailSignature.message = resultUser.email + " asked you to sign this document";
         emailSignature.subject = "SignNow Invitation";
-		string resinvite = copyclient.documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
+		string resinvite = cudasign.documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
 }
 ```
 
@@ -219,7 +219,7 @@ public void roleBasedInvite()
 ```
 public void cancelInvite()
 {
-        string cancelinvite = copyclient.documentService.cancelInvite(requestedToken, document.id);
+        string cancelinvite = cudasign.documentService.cancelInvite(requestedToken, document.id);
 }
 ```
 
@@ -227,7 +227,7 @@ public void cancelInvite()
 ```
 public void getDocumentHistory()
 {
-        DocumentHistory[] dochistory = copyclient.documentService.getDocumentHistory(requestedToken, document.id);
+        DocumentHistory[] dochistory = cudasign.documentService.getDocumentHistory(requestedToken, document.id);
 }
 ```
 
@@ -239,7 +239,7 @@ public void createTemplate()
         template.document_id = document.id;
         template.document_name = "New Template";
 
-        Template resultTemplate = copyclient.documentService.createTemplate(requestedToken, template);
+        Template resultTemplate = cudasign.documentService.createTemplate(requestedToken, template);
 }
 ```
 
@@ -247,7 +247,7 @@ public void createTemplate()
 ```
 public void createNewDocumentFromTemplate()
 {
-        Template copyTemplate = copyclient.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
+        Template copyTemplate = cudasign.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
 }
 ```
 
@@ -256,7 +256,7 @@ public void createNewDocumentFromTemplate()
 public void downloadCollapsedDocument()
 {
 		private string outputdirPath = "outputdirPath";
-        byte[] docarr = copyclient.documentService.downloadCollapsedDocument(requestedToken, document.id);
+        byte[] docarr = cudasign.documentService.downloadCollapsedDocument(requestedToken, document.id);
         if(Directory.Exists(outputdirPath))
         {
             string dest = outputdirPath + @"\" + document.id + ".pdf";
@@ -269,7 +269,7 @@ public void downloadCollapsedDocument()
 ```
 public void deleteDocument()
 {
-        string confirm = copyclient.documentService.deleteDocument(requestedToken, document.id);
+        string confirm = cudasign.documentService.deleteDocument(requestedToken, document.id);
 }
 ```
 
@@ -285,7 +285,7 @@ public void mergeDocuments()
 		
         Hashtable myMergeMap = new Hashtable();
         myMergeMap.Add("document_ids", docIds);
-        byte[] res = copyclient.documentService.mergeDocuments(requestedToken, myMergeMap);
+        byte[] res = cudasign.documentService.mergeDocuments(requestedToken, myMergeMap);
         if (Directory.Exists(outputdirPath))
         {
             string dest = outputdirPath + @"\Merge" + (document1.id.Substring(1, 4) + document2.id.Substring(1, 4)) + ".pdf";
@@ -301,7 +301,7 @@ public void createEventSubscription()
         EventSubscription evs = new EventSubscription();
         evs.Event = "document.create";
         evs.callback_url = "https://www.myapp.com/path/to/callback.php";
-        EventSubscription res = copyclient.documentService.createEventSubscription(requestedToken, evs);
+        EventSubscription res = cudasign.documentService.createEventSubscription(requestedToken, evs);
 }
 ```
 
@@ -309,7 +309,7 @@ public void createEventSubscription()
 ```
 public void deleteEventSubscription()
 {
-        EventSubscription deleteEvent = copyclient.documentService.deleteEventSubscription(requestedToken, res.id);
+        EventSubscription deleteEvent = cudasign.documentService.deleteEventSubscription(requestedToken, res.id);
 }
 ```
 

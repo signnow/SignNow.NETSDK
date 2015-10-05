@@ -21,7 +21,7 @@ namespace SNDotNetSDK.Test
     [TestClass]
     public class DocumentServiceTest
     {
-        static CopyClient copyclient;
+        static CudaSign cudasign;
         private string inputdirPath = "inputdirPath";
         private string outputdirPath = "outputdirPath";
 
@@ -29,7 +29,7 @@ namespace SNDotNetSDK.Test
         public static void before(TestContext t)
         {
             Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
-            copyclient = new CopyClient(config);
+            cudasign = new CudaSign(config);
         }
         
         /*
@@ -45,12 +45,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -60,7 +60,7 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
         }
 
@@ -77,12 +77,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -92,10 +92,10 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            Document[] resultDoc = copyclient.documentService.getDocuments(requestedToken);
+            Document[] resultDoc = cudasign.documentService.getDocuments(requestedToken);
             Assert.IsNotNull("resultDocid's", resultDoc.Length.ToString());
         }
 
@@ -112,12 +112,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -127,10 +127,10 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            Document resultDoc = copyclient.documentService.getDocumentbyId(requestedToken, document.id);
+            Document resultDoc = cudasign.documentService.getDocumentbyId(requestedToken, document.id);
             Assert.IsNotNull("resultDocid", resultDoc.id);
         }
 
@@ -147,12 +147,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -162,7 +162,7 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             // Build the data for Signature Test
@@ -280,7 +280,7 @@ namespace SNDotNetSDK.Test
             fieldsMap.Add("checks", checksList);
             fieldsMap.Add("fields", fieldsList);
 
-            Document resultDoc = copyclient.documentService.updateDocument(requestedToken, fieldsMap, document.id);
+            Document resultDoc = cudasign.documentService.updateDocument(requestedToken, fieldsMap, document.id);
 
             Assert.IsNotNull("DocumentId", document.id);
         }
@@ -315,12 +315,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -330,7 +330,7 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -338,7 +338,7 @@ namespace SNDotNetSDK.Test
             invitation.from = resultUser.email;
             invitation.to = toEmail;
 
-            string resinvite = copyclient.documentService.invite(requestedToken, invitation, document.id);
+            string resinvite = cudasign.documentService.invite(requestedToken, invitation, document.id);
             Assert.AreEqual("success", resinvite);
         }
 
@@ -355,12 +355,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -370,7 +370,7 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             // Build the data for Signature Test
@@ -510,8 +510,8 @@ namespace SNDotNetSDK.Test
             fieldsMap.Add("checks", checksList);
             fieldsMap.Add("fields", fieldsList);
 
-            Document resultDoc = copyclient.documentService.updateDocument(requestedToken, fieldsMap, document.id);
-            Document getDoc = copyclient.documentService.getDocumentbyId(requestedToken, resultDoc.id);
+            Document resultDoc = cudasign.documentService.updateDocument(requestedToken, fieldsMap, document.id);
+            Document getDoc = cudasign.documentService.getDocumentbyId(requestedToken, resultDoc.id);
 
             Fields[] flds = getDoc.fields;
             List<System.Collections.Hashtable> roleMapList = new List<System.Collections.Hashtable>();
@@ -535,7 +535,7 @@ namespace SNDotNetSDK.Test
             emailSignature.message = resultUser.email + " asked you to sign this document";
             emailSignature.subject = "SignNow Invitation";
 
-            string resinvite = copyclient.documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
+            string resinvite = cudasign.documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
             Assert.AreEqual("success", resinvite);
         }
 
@@ -552,12 +552,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -567,7 +567,7 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
@@ -575,10 +575,10 @@ namespace SNDotNetSDK.Test
             invitation.from = resultUser.email;
             invitation.to = toEmail;
 
-            string resinvite = copyclient.documentService.invite(requestedToken, invitation, document.id);
+            string resinvite = cudasign.documentService.invite(requestedToken, invitation, document.id);
             Assert.AreEqual("success", resinvite);
 
-            string cancelinvite = copyclient.documentService.cancelInvite(requestedToken, document.id);
+            string cancelinvite = cudasign.documentService.cancelInvite(requestedToken, document.id);
             Assert.AreEqual("success", cancelinvite);
         }
 
@@ -595,12 +595,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -610,9 +610,9 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
-            Document resdoc = copyclient.documentService.shareDocument(requestedToken, document.id);
+            Document resdoc = cudasign.documentService.shareDocument(requestedToken, document.id);
 
             Assert.IsNotNull("Document Link", resdoc.link);
         }
@@ -630,12 +630,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -645,10 +645,10 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            DocumentHistory[] dochistory = copyclient.documentService.getDocumentHistory(requestedToken, document.id);
+            DocumentHistory[] dochistory = cudasign.documentService.getDocumentHistory(requestedToken, document.id);
             Assert.IsNotNull("Ip Address :", dochistory[0].ip_address);
         }
 
@@ -665,12 +665,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -680,14 +680,14 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             Template template = new Template();
             template.document_id = document.id;
             template.document_name = "New Template";
 
-            Template resultTemplate = copyclient.documentService.createTemplate(requestedToken, template);
+            Template resultTemplate = cudasign.documentService.createTemplate(requestedToken, template);
             Assert.IsNotNull("template create result", resultTemplate.id);
         }
 
@@ -704,12 +704,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -719,18 +719,18 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
             Template template = new Template();
             template.document_id = document.id;
             template.document_name = "New Template-PostDoc28";
 
-            Template resultTemplate = copyclient.documentService.createTemplate(requestedToken, template);
+            Template resultTemplate = cudasign.documentService.createTemplate(requestedToken, template);
             Assert.IsNotNull("template create result", resultTemplate.id);
             resultTemplate.document_name = "Copy Template-PostDoc28";
 
-            Template copyTemplate = copyclient.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
+            Template copyTemplate = cudasign.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
             Assert.IsNotNull("Document Id", copyTemplate.id);
         }
 
@@ -747,12 +747,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -762,10 +762,10 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            byte[] docarr = copyclient.documentService.downloadCollapsedDocument(requestedToken, document.id);
+            byte[] docarr = cudasign.documentService.downloadCollapsedDocument(requestedToken, document.id);
             if(Directory.Exists(outputdirPath))
             {
                 string dest = outputdirPath + @"\" + document.id + ".pdf";
@@ -787,12 +787,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -802,10 +802,10 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
 
-            string confirm = copyclient.documentService.deleteDocument(requestedToken, document.id);
+            string confirm = cudasign.documentService.deleteDocument(requestedToken, document.id);
             Assert.AreEqual("success", confirm);
         }
 
@@ -822,12 +822,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc1 = new Document();
@@ -838,9 +838,9 @@ namespace SNDotNetSDK.Test
                 doc1.filePath = docFilePath[0];
                 doc2.filePath = docFilePath[1];
             }
-            Document document1 = copyclient.documentService.create(requestedToken, doc1);
+            Document document1 = cudasign.documentService.create(requestedToken, doc1);
             Assert.IsNotNull("DocumentId", document1.id);
-            Document document2 = copyclient.documentService.create(requestedToken, doc2);
+            Document document2 = cudasign.documentService.create(requestedToken, doc2);
             Assert.IsNotNull("DocumentId", document2.id);
 
             List<string> docIds = new List<string>();
@@ -849,7 +849,7 @@ namespace SNDotNetSDK.Test
             Hashtable myMergeMap = new Hashtable();
             myMergeMap.Add("document_ids", docIds);
 
-            byte[] res = copyclient.documentService.mergeDocuments(requestedToken, myMergeMap);
+            byte[] res = cudasign.documentService.mergeDocuments(requestedToken, myMergeMap);
             if (Directory.Exists(outputdirPath))
             {
                 string dest = outputdirPath + @"\Merge" + (document1.id.Substring(1, 4) + document2.id.Substring(1, 4)) + ".pdf";
@@ -871,18 +871,18 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             EventSubscription evs = new EventSubscription();
             evs.Event = "document.create";
             evs.callback_url = "https://www.myapp.com/path/to/callback.php";
-            EventSubscription res = copyclient.documentService.createEventSubscription(requestedToken, evs);
+            EventSubscription res = cudasign.documentService.createEventSubscription(requestedToken, evs);
             Assert.IsNotNull("Subscription Id Created", res.id);
         }
 
@@ -899,21 +899,21 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             EventSubscription evs = new EventSubscription();
             evs.Event = "document.create";
             evs.callback_url = "https://www.myapp.com/path/to/callback.php";
-            EventSubscription res = copyclient.documentService.createEventSubscription(requestedToken, evs);
+            EventSubscription res = cudasign.documentService.createEventSubscription(requestedToken, evs);
             Assert.IsNotNull("Subscription Id Created", res.id);
 
-            EventSubscription deleteEvent = copyclient.documentService.deleteEventSubscription(requestedToken, res.id);
+            EventSubscription deleteEvent = cudasign.documentService.deleteEventSubscription(requestedToken, res.id);
             Assert.AreEqual("deleted", deleteEvent.status);
         }
 
@@ -931,12 +931,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
@@ -946,7 +946,7 @@ namespace SNDotNetSDK.Test
                 doc.filePath = docFilePath[0];
             }
 
-            Document document = copyclient.documentService.create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.id);
         }
     }

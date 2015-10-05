@@ -14,10 +14,10 @@ namespace SNDotNetSDK.ServiceImpl
      */
     public class UserService : IUserService
     {
-        private Config copyConfig;
-        public UserService(Config copyConfig)
+        private Config config;
+        public UserService(Config config)
         {
-            this.copyConfig = copyConfig;
+            this.config = config;
         }
         /*
          * This method is used to create (POST) a User in the SignNow Application.
@@ -26,11 +26,11 @@ namespace SNDotNetSDK.ServiceImpl
         User createdUser = null;
         try {
             var client = new RestClient();
-            client.BaseUrl = copyConfig.getApiBase();
+            client.BaseUrl = config.getApiBase();
 
             var request = new RestRequest("/user", Method.POST)
                     .AddHeader("Accept", "application/json")
-                    .AddHeader("Authorization", "Basic " + copyConfig.getBase64EncodedClientCredentials())
+                    .AddHeader("Authorization", "Basic " + config.getBase64EncodedClientCredentials())
                     .AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             request.AddBody(user);
@@ -54,7 +54,7 @@ namespace SNDotNetSDK.ServiceImpl
         User getUser = null;
         try {
             var client = new RestClient();
-            client.BaseUrl = copyConfig.getApiBase();
+            client.BaseUrl = config.getApiBase();
 
             var request = new RestRequest("/user", Method.GET)
                 .AddHeader("Accept", "application/json")

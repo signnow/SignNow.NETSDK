@@ -14,10 +14,10 @@ namespace SNDotNetSDK.ServiceImpl
      */
     public class OAuth2TokenService : IAuthenticationService
     {
-        private Config copyConfig;
-        public OAuth2TokenService(Config copycopyConfig)
+        private Config config;
+        public OAuth2TokenService(Config config)
         {
-            this.copyConfig = copycopyConfig;
+            this.config = config;
         }
 
         /**
@@ -30,11 +30,11 @@ namespace SNDotNetSDK.ServiceImpl
             try
             {
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/oauth2/token", Method.POST)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Basic " + copyConfig.getBase64EncodedClientCredentials())
+                        .AddHeader("Authorization", "Basic " + config.getBase64EncodedClientCredentials())
                         .AddHeader("Content-Type", "application/x-www-form-urlencoded");
                 request.RequestFormat = DataFormat.Json;
                 request.AddParameter("username", user.email)
@@ -61,7 +61,7 @@ namespace SNDotNetSDK.ServiceImpl
         Oauth2Token verifyToken = null;
         try {
             var client = new RestClient();
-            client.BaseUrl = copyConfig.getApiBase();
+            client.BaseUrl = config.getApiBase();
 
             var request = new RestRequest("/oauth2/token", Method.GET)
                     .AddHeader("Authorization", "Bearer " + access_token)

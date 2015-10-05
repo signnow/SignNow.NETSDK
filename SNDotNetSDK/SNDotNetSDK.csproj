@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\IConfig.cs" />
-    <Compile Include="CopyClient.cs" />
+    <Compile Include="CudaSign.cs" />
     <Compile Include="Models\Checkbox.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Models\Document.cs" />

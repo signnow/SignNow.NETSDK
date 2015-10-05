@@ -15,12 +15,12 @@ namespace SNDotNetSDK.Test
     [TestClass]
     public class UserServiceTest
     {
-        static CopyClient copyclient;
+        static CudaSign cudasign;
         [ClassInitialize]
         public static void before(TestContext t)
         {
             Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
-            copyclient = new CopyClient(config);
+            cudasign = new CudaSign(config);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace SNDotNetSDK.Test
         user.first_name = "firstName";
         user.last_name = "LastName";
 
-        User resultUser = copyclient.userService.create(user);
+        User resultUser = cudasign.userService.create(user);
         
         Assert.IsNotNull("No user id from creating user", resultUser.id);
         
@@ -49,17 +49,17 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             resultUser.oauth2Token = requestedToken;
 
-            User getUser = copyclient.userService.get(resultUser.oauth2Token.access_token);
+            User getUser = cudasign.userService.get(resultUser.oauth2Token.access_token);
             Assert.AreEqual(resultUser.id, getUser.id, "Found");
         }
     }

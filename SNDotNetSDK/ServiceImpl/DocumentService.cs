@@ -17,10 +17,10 @@ namespace SNDotNetSDK.ServiceImpl
      */
     public class DocumentService : IDocumentService
     {
-        private Config copyConfig;
-        public DocumentService(Config copyConfig)
+        private Config config;
+        public DocumentService(Config config)
         {
-            this.copyConfig = copyConfig;
+            this.config = config;
         }
         /*
          * This method is used to create  or POST the document for a given user in the SignNow Application
@@ -32,7 +32,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
             string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
             var client = new RestClient();
-            client.BaseUrl = copyConfig.getApiBase();
+            client.BaseUrl = config.getApiBase();
 
             var request = new RestRequest("/document", Method.POST)
                     .AddHeader("Accept", "application/json")
@@ -62,7 +62,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
                 var request = new RestRequest("/user/documentsv2", Method.GET)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
@@ -103,7 +103,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
                 var request = new RestRequest("/document" + "/" +id, Method.GET)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Authorization", "Bearer " + token.access_token);
@@ -130,7 +130,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(fieldsMap, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" +id, Method.PUT)
                         .AddHeader("Accept", "application/json")
@@ -161,7 +161,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(invitation, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/invite?email=disable", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -200,7 +200,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(emailSignature, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/invite", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -238,7 +238,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/fieldinvitecancel", Method.PUT)
                         .AddHeader("Accept", "application/json")
@@ -274,7 +274,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/download/link", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -301,7 +301,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/history", Method.GET)
                                    .AddHeader("Authorization", "Bearer " + token.access_token);
@@ -341,7 +341,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(template, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/template", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -371,7 +371,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(template, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/template" + "/" + template.id + "/copy", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -401,7 +401,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/download?type=collapsed", Method.GET)
                         .AddHeader("Authorization", "Bearer " + token.access_token);
@@ -425,7 +425,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document" + "/" + id, Method.DELETE)
                         .AddHeader("Accept", "application/json")
@@ -459,7 +459,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(myMergeMap, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document/merge", Method.POST)
                         .AddHeader("Accept", "application/json")
@@ -487,7 +487,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(events, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/event_subscription", Method.POST)
                         .AddHeader("Content-Type", "application/json")
@@ -515,7 +515,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/event_subscription" + "/" +id, Method.DELETE)
                         .AddHeader("Accept", "application/json")
@@ -542,7 +542,7 @@ namespace SNDotNetSDK.ServiceImpl
             {
                 string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = copyConfig.getApiBase();
+                client.BaseUrl = config.getApiBase();
 
                 var request = new RestRequest("/document/fieldextract", Method.POST)
                         .AddHeader("Authorization", "Bearer " + token.access_token)

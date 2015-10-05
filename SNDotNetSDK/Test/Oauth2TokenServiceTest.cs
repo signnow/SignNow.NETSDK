@@ -15,13 +15,13 @@ namespace SNDotNetSDK.Test
     [TestClass]
     public class Oauth2TokenServiceTest
     {
-        static CopyClient copyclient;
+        static CudaSign cudasign;
 
         [ClassInitialize]
         public static void before(TestContext t)
         {
             Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
-            copyclient = new CopyClient(config);
+            cudasign = new CudaSign(config);
         }
 
         [TestMethod]
@@ -34,12 +34,12 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
         }
 
@@ -53,15 +53,15 @@ namespace SNDotNetSDK.Test
             user.first_name = "firstName";
             user.last_name = "LastName";
 
-            User resultUser = copyclient.userService.create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.id);
             resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = copyclient.authenticationService.requestToken(resultUser);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
             Assert.IsNotNull("Access Token", requestedToken.access_token);
 
-            Oauth2Token verifiedToken = copyclient.authenticationService.verify(requestedToken.access_token);
+            Oauth2Token verifiedToken = cudasign.authenticationService.verify(requestedToken.access_token);
 
             Assert.IsNotNull("Verify Token", verifiedToken.access_token);
 

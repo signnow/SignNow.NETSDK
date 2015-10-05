@@ -14,7 +14,7 @@ namespace SNDotNetSDK.Configuration
          */
 
         /// <summary>
-        /// Instantiates a Copy config with all of the standard defaults
+        /// Instantiates a config with all of the standard defaults
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="clientSecret"></param>
