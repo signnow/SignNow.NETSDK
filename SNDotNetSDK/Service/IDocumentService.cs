@@ -11,38 +11,40 @@ namespace SNDotNetSDK.Service
      */
     public interface IDocumentService
     {
-        Document create(Oauth2Token token, Document documentPath);
+        Document Create(Oauth2Token token, Document documentPath);
 
-        Document[] getDocuments(Oauth2Token token);
+        Document[] GetDocuments(Oauth2Token token);
 
-        Document getDocumentbyId(Oauth2Token token, string id);
+        Document GetDocumentbyId(Oauth2Token token, string id);
 
-        Document updateDocument(Oauth2Token token, Dictionary<string, List<Fields>> fieldsMap, string id);
+        Document UpdateDocument(Oauth2Token token, Dictionary<string, List<Fields>> fieldsMap, string id);
 
-        string invite(Oauth2Token token, Invitation invitation, string id);
+        string Invite(Oauth2Token token, Invitation invitation, string id);
 
-        string roleBasedInvite(Oauth2Token token, EmailSignature emailSignature, string id);
+        string RoleBasedInvite(Oauth2Token token, EmailSignature emailSignature, string id);
 
-        string cancelInvite(Oauth2Token token, string id);
+        string CancelInvite(Oauth2Token token, string id);
 
-        Document shareDocument(Oauth2Token token, string id);
+        Document ShareDocument(Oauth2Token token, string id);
 
-        DocumentHistory[] getDocumentHistory(Oauth2Token token, string id);
+        DocumentHistory[] GetDocumentHistory(Oauth2Token token, string id);
 
-        Template createTemplate(Oauth2Token token, Template template);
+        Template CreateTemplate(Oauth2Token token, Template template);
 
-        Template createNewDocumentFromTemplate(Oauth2Token token, Template template);
+        Template CreateNewDocumentFromTemplate(Oauth2Token token, Template template);
 
-        byte[] downloadCollapsedDocument(Oauth2Token token, string id);
+        byte[] DownloadCollapsedDocument(Oauth2Token token, string id);
 
-        string deleteDocument(Oauth2Token token, string id);
+        string DeleteDocument(Oauth2Token token, string id);
 
-        byte[] mergeDocuments(Oauth2Token token, Hashtable myMergeMap);
+        byte[] MergeDocuments(Oauth2Token token, Hashtable myMergeMap);
 
-        EventSubscription createEventSubscription(Oauth2Token token, EventSubscription events);
+        EventSubscription CreateEventSubscription(Oauth2Token token, EventSubscription events);
 
-        EventSubscription deleteEventSubscription(Oauth2Token token, string id);
+        EventSubscription DeleteEventSubscription(Oauth2Token token, string id);
 
-        Document createSimpleFieldTag(Oauth2Token token, Document documentPath);
+        Document CreateSimpleFieldTag(Oauth2Token token, Document documentPath);
+
+        Document CreateDocumentFieldExtract(Oauth2Token token, Document documentPath);
     }
 }

@@ -8,12 +8,18 @@ namespace SNDotNetSDK.Models
      */
     public class Text : Fields
     {
-        public int size { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
-        public int page_number { get; set; }
-        public string font { get; set; }
-        public string data { get; set; }
-        public double line_height { get; set; }
+        public int Size { get; set; }
+
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public int PageNumber { get; set; }
+
+        public string Font { get; set; }
+
+        public string Data { get; set; }
+
+        public double LineHeight { get; set; }
     }
 }

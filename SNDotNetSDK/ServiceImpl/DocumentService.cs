@@ -25,20 +25,20 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to create  or POST the document for a given user in the SignNow Application
          */
-        public Document create(Oauth2Token token, Document documentPath)
+        public Document Create(Oauth2Token token, Document documentPath)
         {
             Document document = null;
             try
             {
-            string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
+                string requestBody = JsonConvert.SerializeObject(documentPath.FilePath, Formatting.Indented);
             var client = new RestClient();
-            client.BaseUrl = config.getApiBase();
+            client.BaseUrl = config.GetApiBase();
 
             var request = new RestRequest("/document", Method.POST)
                     .AddHeader("Accept", "application/json")
-                    .AddHeader("Authorization", "Bearer " + token.access_token)
+                    .AddHeader("Authorization", "Bearer " + token.AccessToken)
                     .AddHeader("Content-Type","multipart/form-data");
-                request.AddFile("file", documentPath.filePath);
+                request.AddFile("file", documentPath.FilePath);
 
             var httpResponse = client.Execute(request);
        
@@ -47,7 +47,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch(Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return document;
         }
@@ -55,17 +56,17 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method retrieves all the uploaded documents for the specified user.
          */
-        public Document[] getDocuments(Oauth2Token token)
+        public Document[] GetDocuments(Oauth2Token token)
         {
             Document[] docs = new Document[100];
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
                 var request = new RestRequest("/user/documentsv2", Method.GET)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
@@ -88,7 +89,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return docs;
         }
@@ -96,17 +98,17 @@ namespace SNDotNetSDK.ServiceImpl
         /*
             This method is used to GET the document for a given user from the SignNow Application
         */
-        public Document getDocumentbyId(Oauth2Token token, string id)
+        public Document GetDocumentbyId(Oauth2Token token, string id)
         {
             Document document = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
                 var request = new RestRequest("/document" + "/" +id, Method.GET)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
@@ -115,7 +117,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return document;
         }
@@ -123,19 +126,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
             This method is used to update [PUT] the document for a given user from the SignNow Application
         */
-        public Document updateDocument(Oauth2Token token, Dictionary<string, List<Fields>> fieldsMap, string id)
+        public Document UpdateDocument(Oauth2Token token, Dictionary<string, List<Fields>> fieldsMap, string id)
         {
             Document document = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(fieldsMap, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" +id, Method.PUT)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.AddParameter("text/json", requestBody, ParameterType.RequestBody);
                 
 
@@ -146,7 +149,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return document;
         }
@@ -154,19 +158,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to (POST) invite the signers to sign on  the document in the SignNow Application
          */
-        public string invite(Oauth2Token token, Invitation invitation, string id)
+        public string Invite(Oauth2Token token, Invitation invitation, string id)
         {
             string result = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(invitation, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/invite?email=disable", Method.POST)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.RequestFormat = DataFormat.Json;
                 request.AddBody(invitation);
 
@@ -185,7 +189,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch(Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return result;
         }
@@ -193,19 +198,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
         This method is used to (POST)perform rolebased  to invite the signers to sign on  the document in the SignNow Application
         */
-        public string roleBasedInvite(Oauth2Token token, EmailSignature emailSignature, string id)
+        public string RoleBasedInvite(Oauth2Token token, EmailSignature emailSignature, string id)
         {
             string result = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(emailSignature, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/invite", Method.POST)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.AddParameter("text/json", requestBody, ParameterType.RequestBody);
 
 
@@ -223,7 +228,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch(Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return result;
         }
@@ -231,19 +237,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method Cancels an invite to a document.
          */
-        public string cancelInvite(Oauth2Token token, string id)
+        public string CancelInvite(Oauth2Token token, string id)
         {
             string result = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/fieldinvitecancel", Method.PUT)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
@@ -259,7 +265,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return result;
         }
@@ -267,18 +274,18 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to download (POST) the document as PDF for a given user from the SignNow Application
          */
-        public Document shareDocument(Oauth2Token token, string id)
+        public Document ShareDocument(Oauth2Token token, string id)
         {
             Document document = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/download/link", Method.POST)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
@@ -286,7 +293,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return document;
         }
@@ -294,17 +302,17 @@ namespace SNDotNetSDK.ServiceImpl
         /*
         This method is used to (GET) get the Document History for a given Document and for a given user from the SignNow Application
         */
-        public DocumentHistory[] getDocumentHistory(Oauth2Token token, string id)
+        public DocumentHistory[] GetDocumentHistory(Oauth2Token token, string id)
         {
             DocumentHistory[] docshistory = new DocumentHistory[100];
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/history", Method.GET)
-                                   .AddHeader("Authorization", "Bearer " + token.access_token);
+                                   .AddHeader("Authorization", "Bearer " + token.AccessToken);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
@@ -326,7 +334,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch(Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return docshistory;
         }
@@ -334,19 +343,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to (POST)  create the template from a document in the SignNow Application
          */
-        public Template createTemplate(Oauth2Token token, Template template)
+        public Template CreateTemplate(Oauth2Token token, Template template)
         {
             Template templ = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(template, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/template", Method.POST)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.RequestFormat = DataFormat.Json;
                 request.AddBody(template);
 
@@ -356,7 +365,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return templ;
         }
@@ -364,19 +374,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
         This method is used to (POST) create a new document from the given template id in the SignNow Application
         */
-        public Template createNewDocumentFromTemplate(Oauth2Token token, Template template)
+        public Template CreateNewDocumentFromTemplate(Oauth2Token token, Template template)
         {
             Template templ = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(template, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
-                var request = new RestRequest("/template" + "/" + template.id + "/copy", Method.POST)
+                var request = new RestRequest("/template" + "/" + template.Id + "/copy", Method.POST)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.RequestFormat = DataFormat.Json;
                 request.AddBody(template);
 
@@ -386,7 +396,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return templ;
         }
@@ -394,23 +405,24 @@ namespace SNDotNetSDK.ServiceImpl
         /*
         This method is used to Download a collapsed document(Response Content = application/pdf)
         */
-        public byte[] downloadCollapsedDocument(Oauth2Token token, string id)
+        public byte[] DownloadCollapsedDocument(Oauth2Token token, string id)
         {
             byte[] arr = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id + "/download?type=collapsed", Method.GET)
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 var httpResponse = client.Execute(request);
                 arr = httpResponse.RawBytes;
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return arr;
         }
@@ -418,18 +430,18 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          This method is used to Deletes a previously uploaded document
          */
-        public string deleteDocument(Oauth2Token token, string id)
+        public string DeleteDocument(Oauth2Token token, string id)
         {
             string message = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document" + "/" + id, Method.DELETE)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
                 JObject obj = JObject.Parse(json);
@@ -444,7 +456,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return message;
         }
@@ -452,19 +465,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          This method is used to (POST) merge the new document from the given template id in the SignNow Application
          */
-        public byte[] mergeDocuments(Oauth2Token token, Hashtable myMergeMap)
+        public byte[] MergeDocuments(Oauth2Token token, Hashtable myMergeMap)
         {
             byte[] arr = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(myMergeMap, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document/merge", Method.POST)
                         .AddHeader("Accept", "application/json")
                         .AddHeader("Content-Type", "application/pdf")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.AddParameter("text/json", requestBody, ParameterType.RequestBody);
 
                 var httpResponse = client.Execute(request);
@@ -472,7 +485,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch(Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return arr;
         }
@@ -480,18 +494,18 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          This method is Used for creating webhooks that will be triggered when the specified event takes place.
          */
-        public EventSubscription createEventSubscription(Oauth2Token token, EventSubscription events)
+        public EventSubscription CreateEventSubscription(Oauth2Token token, EventSubscription events)
         {
             EventSubscription result = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(events, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/event_subscription", Method.POST)
                         .AddHeader("Content-Type", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
                 request.AddParameter("text/json", requestBody, ParameterType.RequestBody);
 
                 var httpResponse = client.Execute(request);
@@ -500,7 +514,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch(Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return result;
         }
@@ -508,18 +523,18 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          This method is used to Delete an event subscription.
          */
-        public EventSubscription deleteEventSubscription(Oauth2Token token, string id)
+        public EventSubscription DeleteEventSubscription(Oauth2Token token, string id)
         {
             EventSubscription result = null;
             try
             {
                 string requestBody = JsonConvert.SerializeObject(token, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/event_subscription" + "/" +id, Method.DELETE)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Bearer " + token.access_token);
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken);
 
                 var httpResponse = client.Execute(request);
                 string json = httpResponse.Content.ToString();
@@ -527,7 +542,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return result;
         }
@@ -535,19 +551,19 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          This method Uploads a file that contains SignNow Document Field Tags (Simple Field tags only)
          */
-        public Document createSimpleFieldTag(Oauth2Token token, Document documentPath)
+        public Document CreateSimpleFieldTag(Oauth2Token token, Document documentPath)
         {
             Document document = null;
             try
             {
-                string requestBody = JsonConvert.SerializeObject(documentPath.filePath, Formatting.Indented);
+                string requestBody = JsonConvert.SerializeObject(documentPath.FilePath, Formatting.Indented);
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/document/fieldextract", Method.POST)
-                        .AddHeader("Authorization", "Bearer " + token.access_token)
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken)
                         .AddHeader("Content-Type", "multipart/form-data");
-                request.AddFile("file", documentPath.filePath);
+                request.AddFile("file", documentPath.FilePath);
 
                 var httpResponse = client.Execute(request);
 
@@ -556,7 +572,38 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
+            }
+            return document;
+        }
+
+        /*
+         * This method is used to create  or POST the document that contains SignNow Document Field Tags.
+         */
+        public Document CreateDocumentFieldExtract(Oauth2Token token, Document documentPath)
+        {
+            Document document = null;
+            try
+            {
+                string requestBody = JsonConvert.SerializeObject(documentPath.FilePath, Formatting.Indented);
+                var client = new RestClient();
+                client.BaseUrl = config.GetApiBase();
+
+                var request = new RestRequest("/document/fieldextract", Method.POST)
+                        .AddHeader("Authorization", "Bearer " + token.AccessToken)
+                        .AddHeader("Content-Type", "multipart/form-data");
+                request.AddFile("file", documentPath.FilePath);
+
+                var httpResponse = client.Execute(request);
+
+                string json = httpResponse.Content.ToString();
+                document = JsonConvert.DeserializeObject<Document>(json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
             return document;
         }

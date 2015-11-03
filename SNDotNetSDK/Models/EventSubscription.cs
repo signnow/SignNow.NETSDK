@@ -12,18 +12,18 @@ namespace SNDotNetSDK.Models
         [JsonProperty("event")]
         public string Event { get; set; }
 
-        public string callback_url { get; set; }
+        public string CallbackUrl { get; set; }
 
-        public string id { get; set; }
+        public string Id { get; set; }
 
-        public string created { get; set; }
+        public string Created { get; set; }
 
-        public string updated { get; set; }
+        public string Updated { get; set; }
 
-        public string status { get; set; }
+        public string Status { get; set; }
 
-        public string error { get; set; }
+        public string Error { get; set; }
 
-        public int code { get; set; }
+        public int Code { get; set; }
     }
 }

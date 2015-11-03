@@ -9,18 +9,27 @@ namespace SNDotNetSDK.Models
      */
     public class DocumentHistory
     {
-        public string email { get; set; }
-        public string ip_address { get; set; }
-        public string created { get; set; }
+        public string Email { get; set; }
+
+        public string IpAddress { get; set; }
+
+        public string Created { get; set; }
+
         [JsonProperty("event")]
         public string Event { get; set; }
-        public string client_app_name { get; set; }
-        public string user_agent { get; set; }
-        public string origin { get; set; }
-        public string version { get; set; }
-        public string client_timestamp { get; set; }
-        public string error { get; set; }
 
-        public int code { get; set; }
+        public string ClientAppName { get; set; }
+
+        public string UserAgent { get; set; }
+
+        public string Origin { get; set; }
+
+        public string Version { get; set; }
+
+        public string ClientTimeStamp { get; set; }
+
+        public string Error { get; set; }
+
+        public int Code { get; set; }
     }
 }

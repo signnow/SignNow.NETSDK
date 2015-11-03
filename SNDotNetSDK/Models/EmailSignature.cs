@@ -10,14 +10,14 @@ namespace SNDotNetSDK.Models
      */
     public class EmailSignature
     {
-        public List<Hashtable> to { get; set; }
+        public List<Hashtable> To { get; set; }
 
-        public string from { get; set; }
+        public string From { get; set; }
 
-        public string[] cc { get; set; }
+        public string[] CC { get; set; }
 
-        public string subject { get; set; }
+        public string Subject { get; set; }
 
-        public string message { get; set; }
+        public string Message { get; set; }
     }
 }

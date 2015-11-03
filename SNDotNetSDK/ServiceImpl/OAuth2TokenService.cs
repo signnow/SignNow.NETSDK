@@ -23,22 +23,22 @@ namespace SNDotNetSDK.ServiceImpl
         /**
         * This method is used to request (POST)the OAuth2 token for a specific user to access SignNow Application.
         */
-        public Oauth2Token requestToken(User user)
+        public Oauth2Token RequestToken(User user)
         {
             
             Oauth2Token requestedToken = null;
             try
             {
                 var client = new RestClient();
-                client.BaseUrl = config.getApiBase();
+                client.BaseUrl = config.GetApiBase();
 
                 var request = new RestRequest("/oauth2/token", Method.POST)
                         .AddHeader("Accept", "application/json")
-                        .AddHeader("Authorization", "Basic " + config.getBase64EncodedClientCredentials())
+                        .AddHeader("Authorization", "Basic " + config.GetBase64EncodedClientCredentials())
                         .AddHeader("Content-Type", "application/x-www-form-urlencoded");
                 request.RequestFormat = DataFormat.Json;
-                request.AddParameter("username", user.email)
-                        .AddParameter("password", user.password)
+                request.AddParameter("username", user.Email)
+                        .AddParameter("password", user.Password)
                         .AddParameter("grant_type", "password");
 
                 var httpResponse = client.Execute(request);
@@ -48,7 +48,8 @@ namespace SNDotNetSDK.ServiceImpl
             }
             catch (Exception ex)
             {
-                throw new SystemException();
+                Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
             }
         return requestedToken;
         }
@@ -56,15 +57,15 @@ namespace SNDotNetSDK.ServiceImpl
         /**
         * This method is used to verify (GET) the OAuth2 token for a specific user to access SignNow Application.
         */
-        public Oauth2Token verify(string access_token)
+        public Oauth2Token Verify(string AccessToken)
         {
         Oauth2Token verifyToken = null;
         try {
             var client = new RestClient();
-            client.BaseUrl = config.getApiBase();
+            client.BaseUrl = config.GetApiBase();
 
             var request = new RestRequest("/oauth2/token", Method.GET)
-                    .AddHeader("Authorization", "Bearer " + access_token)
+                    .AddHeader("Authorization", "Bearer " + AccessToken)
                     .AddHeader("Accept", "application/json");
             
             var httpResponse = client.Execute(request);
@@ -74,7 +75,8 @@ namespace SNDotNetSDK.ServiceImpl
         } 
         catch (Exception ex) 
         {
-            throw new SystemException();
+            Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+            throw;
         }
         return verifyToken;
         }

@@ -15,7 +15,7 @@ namespace SNDotNetSDK.Service
          * @param user
          * @return the newly created user with her system generated ID
          */
-        User create(User user);
+        User Create(User user);
 
         /**
          * Gets a user from the SignNow system based on her OAuth2 bearer token.
@@ -23,6 +23,6 @@ namespace SNDotNetSDK.Service
          * @param user
          * @return
          */
-        User get(string access_token);
+        User Get(string AccessToken);
     }
 }

@@ -8,8 +8,8 @@ namespace SNDotNetSDK.Configuration
 {
     public interface IConfig
     {
-        string getApiBase();
+        string GetApiBase();
 
-        string getBase64EncodedClientCredentials();
+        string GetBase64EncodedClientCredentials();
     }
 }

@@ -22,15 +22,15 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to create (POST) a User in the SignNow Application.
          */
-        public User create(User user) {
+        public User Create(User user) {
         User createdUser = null;
         try {
             var client = new RestClient();
-            client.BaseUrl = config.getApiBase();
+            client.BaseUrl = config.GetApiBase();
 
             var request = new RestRequest("/user", Method.POST)
                     .AddHeader("Accept", "application/json")
-                    .AddHeader("Authorization", "Basic " + config.getBase64EncodedClientCredentials())
+                    .AddHeader("Authorization", "Basic " + config.GetBase64EncodedClientCredentials())
                     .AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             request.AddBody(user);
@@ -41,7 +41,8 @@ namespace SNDotNetSDK.ServiceImpl
             createdUser = JsonConvert.DeserializeObject<User>(json);
         } 
         catch (Exception ex) {
-            throw new SystemException();
+            Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+            throw;
         }
         return createdUser;
        }
@@ -49,16 +50,16 @@ namespace SNDotNetSDK.ServiceImpl
         /*
          * This method is used to retrieve (GET) a User in the SignNow Application.
          */
-        public User get(string access_token)
+        public User Get(string AccessToken)
         {
         User getUser = null;
         try {
             var client = new RestClient();
-            client.BaseUrl = config.getApiBase();
+            client.BaseUrl = config.GetApiBase();
 
             var request = new RestRequest("/user", Method.GET)
                 .AddHeader("Accept", "application/json")
-                .AddHeader("Authorization", "Bearer " + access_token);
+                .AddHeader("Authorization", "Bearer " + AccessToken);
 
             var httpResponse = client.Execute(request);
 
@@ -67,7 +68,8 @@ namespace SNDotNetSDK.ServiceImpl
         }
         catch (Exception ex)
         {
-            throw new SystemException();
+            Console.WriteLine(string.Format("Exception: {0}", ex.Message));
+            throw;
         }
         return getUser;
       }

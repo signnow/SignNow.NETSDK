@@ -8,10 +8,10 @@ namespace SNDotNetSDK.Models
      */
     public class Invitation
     {
-        public string from { get; set; }
+        public string From { get; set; }
 
-        public string to { get; set; }
+        public string To { get; set; }
 
-        public bool originator_pay { get; set; }
+        public bool OriginatorPay { get; set; }
     }
 }

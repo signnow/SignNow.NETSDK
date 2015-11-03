@@ -4,30 +4,30 @@ namespace SNDotNetSDK.Models
     /**
      * Created by Deepak on 5/14/2015
      * 
-     * This model is useful to build the Fields Object to have different types of files like, Signature,CheckBox,Texts and Initials.
+     * This model is useful to build the Fields Object to have different types of files like, CheckBox, Texts and Initials.
      */
     public class Fields
     {
-        public int x { get; set; }
+        public int X { get; set; }
 
-        public int y { get; set; }
+        public int Y { get; set; }
 
-        public int width { get; set; }
+        public int Width { get; set; }
 
-        public int height { get; set; }
+        public int Height { get; set; }
 
-        public int page_number { get; set; }
+        public int PageNumber { get; set; }
 
-        public string role { get; set; }
+        public string Role { get; set; }
 
-        public bool required { get; set; }
+        public bool Required { get; set; }
 
-        public string type { get; set; }
+        public string Type { get; set; }
 
-        public string role_id { get; set; }
+        public string RoleId { get; set; }
 
-        public List<Fields> radio { get; set; }
+        public List<Fields> Radio { get; set; }
 
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 }

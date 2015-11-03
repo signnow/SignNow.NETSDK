@@ -7,76 +7,22 @@ namespace SNDotNetSDK.Models
      * This model class used to create the User in SignNow Application
      */
     public class User {
-        private string Id;
+        public string Id { get; set; }
 
-        private string firstName;
+        public string FirstName { get; set; }
 
-        private string lastName;
+        public string LastName { get; set; }
 
-        private string Email;
+        public string Email { get; set; }
 
-        private string Password;
+        public string Password { get; set; }
 
-        private string Verified;
+        public string Verified { get; set; }
 
-        private Oauth2Token OAuth2Token;
+        public Oauth2Token OAuth2Token { get; set; }
 
-        private string Error;
+        public string Error { get; set; }
 
-        private int Code;
-	
-	    public string id
-	    {
-		    get {   return Id; }
-		    set { this.Id = value; }
-	    }
-
-        public string first_name
-	    {
-		    get {   return firstName; }
-		    set {   this.firstName = value; }
-	    }
-
-        public string last_name
-	    {
-		    get {   return lastName;}
-		    set {   this.lastName = value; }
-	    }
-
-        public string email
-	    {
-            get { return Email; }
-            set { this.Email = value; }
-	    }
-
-        public string password
-	    {
-            get { return Password; }
-            set { this.Password = value; }
-	    }
-	
-	    public string verified
-	    {
-		    get {   return Verified; }
-		    set {   this.Verified = value; }
-	    }
-	
-	    public Oauth2Token oauth2Token
-	    {
-		    get {   return OAuth2Token; }
-		    set {   this.OAuth2Token = value; }
-	    }
-
-        public string error
-        {
-            get { return Error; }
-            set { this.Error = value; }
-        }
-
-        public int code
-        {
-            get { return Code; }
-            set { this.Code = value; }
-        }
-}
+        public int Code { get; set; }
+    }
 }

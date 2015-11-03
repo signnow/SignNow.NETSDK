@@ -17,50 +17,50 @@ namespace SNDotNetSDK.Test
     {
         static CudaSign cudasign;
         [ClassInitialize]
-        public static void before(TestContext t)
+        public static void Before(TestContext t)
         {
-            Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
+            Config config = new Config("apiBase", "clientId", "clientSecret");
             cudasign = new CudaSign(config);
         }
 
         [TestMethod]
-        public void createUser() {
+        public void CreateUser() {
         String randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
         User user = new User();
-        user.email = randomEmail;
-        user.password = "fakePassword";
-        user.first_name = "firstName";
-        user.last_name = "LastName";
+        user.Email = randomEmail;
+        user.Password = "fakePassword";
+        user.FirstName = "firstName";
+        user.LastName = "LastName";
 
-        User resultUser = cudasign.userService.create(user);
+        User resultUser = cudasign.userService.Create(user);
         
-        Assert.IsNotNull("No user id from creating user", resultUser.id);
+        Assert.IsNotNull("No user id from creating user", resultUser.Id);
         
-        Console.WriteLine(resultUser.email + " " + resultUser.id);
+        Console.WriteLine(resultUser.Email + " " + resultUser.Id);
        }
 
         [TestMethod]
-        public void getUser()
+        public void GetUser()
         {
             String randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
-            user.email = randomEmail;
-            user.password = "fakePassword";
-            user.first_name = "firstName";
-            user.last_name = "LastName";
+            user.Email = randomEmail;
+            user.Password = "fakePassword";
+            user.FirstName = "firstName";
+            user.LastName = "LastName";
 
-            User resultUser = cudasign.userService.create(user);
+            User resultUser = cudasign.userService.Create(user);
 
-            Assert.IsNotNull("No user id from creating user", resultUser.id);
-            resultUser.password = "fakePassword";
+            Assert.IsNotNull("No user id from creating user", resultUser.Id);
+            resultUser.Password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.access_token);
+            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
 
-            resultUser.oauth2Token = requestedToken;
+            resultUser.OAuth2Token = requestedToken;
 
-            User getUser = cudasign.userService.get(resultUser.oauth2Token.access_token);
-            Assert.AreEqual(resultUser.id, getUser.id, "Found");
+            User getUser = cudasign.userService.Get(resultUser.OAuth2Token.AccessToken);
+            Assert.AreEqual(resultUser.Id, getUser.Id, "Found");
         }
     }
 }

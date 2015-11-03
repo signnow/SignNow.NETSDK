@@ -29,85 +29,108 @@ Every resource returns either the result parameter or the error parameter(if occ
 
 ## Initialize
 ```
-Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
+Config config = new Config("<ApiBAse>", "<Client-Id>", "<Client-Secret>");
 CudaSign cudasign = new CudaSign(config);
 ```
 
 ## Create a User
 ```
-public void createUser()
+public void CreateUser()
 {
         String randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
         User user = new User();
-        user.email = randomEmail;
-        user.password = "fakePassword";
-        user.first_name = "firstName";
-        user.last_name = "LastName";
-        User resultUser = cudasign.userService.create(user);
-		if(resultUser.error == null)
+        user.Email = randomEmail;
+        user.Password = "fakePassword";
+        user.FirstName = "firstName";
+        user.LastName = "LastName";
+        User resultUser = cudasign.userService.Create(user);
+		if(resultUser.Error == null)
 		{
-			Console.WriteLine(resultUser.email);
+			Console.WriteLine(resultUser.Email);
 		}
 		else
 		{
-			Console.WriteLine("Error "+resultUser.error+"occurs with status code "+resultUser.code);
+			Console.WriteLine("Error "+resultUser.Error+"occurs with status code "+resultUser.Code);
 		}
 }
 ```
 ## Get User
 ```
-public void getUser()
+public void GetUser()
 {
-		User resultUser = cudasign.userService.get(resultUser.oauth2Token.access_token);
+		User resultUser = cudasign.userService.Get(resultUser.OAuth2Token.AccessToken);
 }
 ```
 ## Request Token
 ```
-public void requestToken()
+public void RequestToken()
 {
 		User user = new User();
-		user.email = resultUser.email;
-		user.password = "fakePassword";
-		Oauth2Token requestedToken = cudasign.authenticationService.requestToken(user);       
+		user.Email = resultUser.Email;
+		user.Password = "fakePassword";
+		Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(user);       
 }
 ```
 
 ## Verify Token
 ```
-public void verifyToken()
+public void VerifyToken()
 {
-        Oauth2Token verifiedToken = cudasign.authenticationService.verify(requestedToken.access_token);
+        Oauth2Token verifiedToken = cudasign.authenticationService.Verify(requestedToken.AccessToken);
 }
 ```
 
 ## Create Document
 ```
-public void createDocument()
+public void CreateDocument()
 {
-		private string inputdirPath = "inputdirPath";
+		private string InputdirPath = "InputdirPath";
         Document doc = new Document();
-        if(Directory.Exists(inputdirPath))
+        if(Directory.Exists(InputdirPath))
         {
-            string[] docFilePath = Directory.GetFiles(@inputdirPath);
-            doc.filePath = docFilePath[0];
+            string[] DocFilePath = Directory.GetFiles(@InputdirPath);
+            doc.filePath = DocFilePath[0];
         }
-        Document document = cudasign.documentService.create(requestedToken, doc);
-		if(document.error == null)
+        Document document = cudasign.documentService.Create(requestedToken, doc);
+		if(document.Error == null)
 		{
-			Console.WriteLine(document.id);
+			Console.WriteLine(document.Id);
 		}
 		else
 		{
-			Console.WriteLine("Error "+document.error+"occurs with status code "+document.code);
+			Console.WriteLine("Error "+document.Error+"occurs with status code "+document.Code);
+		}
+}
+```
+
+## Create Document And Extract Fields
+```
+public void CreateDocumentFieldExtract()
+{
+        private string InputdirPath = "InputdirPath";
+        Document doc = new Document();
+        if(Directory.Exists(InputdirPath))
+        {
+            string[] DocFilePath = Directory.GetFiles(@InputdirPath);
+            doc.filePath = DocFilePath[0];
+        }
+        Document document = cudasign.documentService.CreateDocumentFieldExtract(requestedToken, doc);
+		if(document.Error == null)
+		{
+			Console.WriteLine(document.Id);
+		}
+		else
+		{
+			Console.WriteLine("Error "+document.Error+"occurs with status code "+document.Code);
 		}
 }
 ```
 
 ## Get Document
 ```
-public void getDocument()
+public void GetDocument()
 {
-        Document[] resultDoc = cudasign.documentService.getDocuments(requestedToken);
+        Document[] resultDoc = cudasign.documentService.GetDocuments(requestedToken);
 		if(resultDoc[0].error != null)
 		{
 			Console.WriteLine("Error "+resultDoc[0].error+"occurs with status code "+resultDoc[0].code);
@@ -117,66 +140,53 @@ public void getDocument()
 
 ## Get Document By Id
 ```
-public void getDocumentbyId()
+public void GetDocumentbyId()
 {
-        Document resultDoc = cudasign.documentService.getDocumentbyId(requestedToken, document.id);
+        Document resultDoc = cudasign.documentService.GetDocumentbyId(requestedToken, document.id);
 }
 ```
 
 ## Update Document
 ```
-public void updateDocument()
-{       
-		System.Drawing.Image img = SNDotNetSDK.Properties.Resources.SignatureImage;
-        string encodedString = ImageToBase64(img, ImageFormat.Jpeg);
-		Signature signature = new Signature();
-        signature.x = 66;
-        signature.y = 21;
-        signature.width = 117;
-        signature.height = 23;
-        signature.page_number = 1;
-        signature.data = encodedString;
-		List<Fields> signatureList = new List<Fields>();
-        signatureList.Add(signature);
-		
+public void UpdateDocument()
+{      
 		Text text = new Text();
-        text.size = 30;
-        text.x = 61;
-        text.y = 72;
-        text.page_number = 0;
-        text.font = "Arial";
-        text.data = "A SAMPLE TEXT FIELD";
-        text.line_height = 9.075;
+        text.Size = 30;
+        text.X = 61;
+        text.Y = 72;
+        text.PageNumber = 0;
+        text.Font = "Arial";
+        text.Data = "A SAMPLE TEXT FIELD";
+        text.LineHeight = 9.075;
 		List<Fields> textsList = new List<Fields>();
         textsList.Add(text);
 		
 		Checkbox checks = new Checkbox();
-        checks.width = 20;
-        checks.height = 20;
-        checks.x = 234;
-        checks.y = 500;
-        checks.page_number = 0;
+        checks.Width = 20;
+        checks.Height = 20;
+        checks.X = 234;
+        checks.Y = 500;
+        checks.PageNumber = 0;
 		List<Fields> checksList = new List<Fields>();
         checksList.Add(checks);
 		
 		Dictionary<string, List<Fields>> fieldsMap = new Dictionary<string, List<Fields>>();
-        fieldsMap.Add("signatures",signatureList);
         fieldsMap.Add("texts", textsList);
         fieldsMap.Add("checks", checksList);
 		
-		Document resultDoc = cudasign.documentService.updateDocument(requestedToken, fieldsMap, document.id);
+		Document resultDoc = cudasign.documentService.UpdateDocument(requestedToken, fieldsMap, document.Id);
 }
 ```
 
 ## Invite Signers
 ```
-public void invite()
+public void Invite()
 {
         string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
         Invitation invitation = new Invitation();
-        invitation.from = resultUser.email;
-        invitation.to = toEmail;
-		string resinvite = cudasign.documentService.invite(requestedToken, invitation, document.id);
+        invitation.From = resultUser.Email;
+        invitation.To = toEmail;
+		string resinvite = cudasign.documentService.Invite(requestedToken, invitation, document.Id);
 		if(!resinvite.Equals("Success"))
 		{
 			Console.WriteLine("Error occurs "+resinvite);
@@ -186,10 +196,10 @@ public void invite()
 
 ## Role Based Invite
 ```
-public void roleBasedInvite()
+public void RoleBasedInvite()
 {   
-		Document getDoc = cudasign.documentService.getDocumentbyId(requestedToken, document.id);
-	    Fields[] flds = getDoc.fields;
+		Document getDoc = cudasign.documentService.GetDocumentbyId(requestedToken, document.Id);
+	    Fields[] flds = getDoc.Fields;
         List<System.Collections.Hashtable> roleMapList = new List<System.Collections.Hashtable>();
         EmailSignature emailSignature = new EmailSignature();
         int counter = 0;
@@ -204,61 +214,61 @@ public void roleBasedInvite()
                 roleMap.Add("order", ++counter);
                 roleMapList.Add(roleMap);
         }
-        emailSignature.to = roleMapList;
-        emailSignature.from = resultUser.email;
+        emailSignature.To = roleMapList;
+        emailSignature.From = resultUser.Email;
         string[] ccuser = new string[] { "ccuser1@mailinator.com", "ccuser2@mailinator.com" };
-        emailSignature.cc = ccuser;
-        emailSignature.message = resultUser.email + " asked you to sign this document";
-        emailSignature.subject = "SignNow Invitation";
-		string resinvite = cudasign.documentService.roleBasedInvite(requestedToken, emailSignature, document.id);
+        emailSignature.CC = ccuser;
+        emailSignature.Message = resultUser.Email + " asked you to sign this document";
+        emailSignature.Subject = "SignNow Invitation";
+		string resinvite = cudasign.documentService.RoleBasedInvite(requestedToken, emailSignature, document.Id);
 }
 ```
 
 ## Cancel Invite
 ```
-public void cancelInvite()
+public void CancelInvite()
 {
-        string cancelinvite = cudasign.documentService.cancelInvite(requestedToken, document.id);
+        string cancelinvite = cudasign.documentService.CancelInvite(requestedToken, document.Id);
 }
 ```
 
 ## Get Document History
 ```
-public void getDocumentHistory()
+public void GetDocumentHistory()
 {
-        DocumentHistory[] dochistory = cudasign.documentService.getDocumentHistory(requestedToken, document.id);
+        DocumentHistory[] dochistory = cudasign.documentService.GetDocumentHistory(requestedToken, document.Id);
 }
 ```
 
 ## Create Template
 ```
-public void createTemplate()
+public void CreateTemplate()
 {
         Template template = new Template();
-        template.document_id = document.id;
-        template.document_name = "New Template";
+        template.DocumentId = document.Id;
+        template.DocumentName = "New Template";
 
-        Template resultTemplate = cudasign.documentService.createTemplate(requestedToken, template);
+        Template resultTemplate = cudasign.documentService.CreateTemplate(requestedToken, template);
 }
 ```
 
 ## Create Document from Template
 ```
-public void createNewDocumentFromTemplate()
+public void CreateNewDocumentFromTemplate()
 {
-        Template copyTemplate = cudasign.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
+        Template copyTemplate = cudasign.documentService.CreateNewDocumentFromTemplate(requestedToken, resultTemplate);
 }
 ```
 
 ## Download Collapsed Document
 ```
-public void downloadCollapsedDocument()
+public void DownloadCollapsedDocument()
 {
-		private string outputdirPath = "outputdirPath";
-        byte[] docarr = cudasign.documentService.downloadCollapsedDocument(requestedToken, document.id);
-        if(Directory.Exists(outputdirPath))
+		private string OutputdirPath = "outputdirPath";
+        byte[] docarr = cudasign.documentService.DownloadCollapsedDocument(requestedToken, document.Id);
+        if(Directory.Exists(OutputdirPath))
         {
-            string dest = outputdirPath + @"\" + document.id + ".pdf";
+            string dest = OutputdirPath + @"\" + document.Id + ".pdf";
             File.WriteAllBytes(dest, docarr);
         }
 }
@@ -266,28 +276,28 @@ public void downloadCollapsedDocument()
 
 ## Delete Document
 ```
-public void deleteDocument()
+public void DeleteDocument()
 {
-        string confirm = cudasign.documentService.deleteDocument(requestedToken, document.id);
+        string confirm = cudasign.documentService.DeleteDocument(requestedToken, document.Id);
 }
 ```
 
 ## Merge Documents
 ```
-public void mergeDocuments()
+public void MergeDocuments()
 {
-		private string outputdirPath = "outputdirPath";
+		private string OutputdirPath = "outputdirPath";
 		
 		List<string> docIds = new List<string>();
-        docIds.Add(document1.id);
-        docIds.Add(document2.id);
+        docIds.Add(document1.Id);
+        docIds.Add(document2.Id);
 		
         Hashtable myMergeMap = new Hashtable();
         myMergeMap.Add("document_ids", docIds);
-        byte[] res = cudasign.documentService.mergeDocuments(requestedToken, myMergeMap);
-        if (Directory.Exists(outputdirPath))
+        byte[] res = cudasign.documentService.MergeDocuments(requestedToken, myMergeMap);
+        if (Directory.Exists(OutputdirPath))
         {
-            string dest = outputdirPath + @"\Merge" + (document1.id.Substring(1, 4) + document2.id.Substring(1, 4)) + ".pdf";
+            string dest = OutputdirPath + @"\Merge" + (document1.Id.Substring(1, 4) + document2.Id.Substring(1, 4)) + ".pdf";
             File.WriteAllBytes(dest, res);
         }
 }
@@ -295,20 +305,20 @@ public void mergeDocuments()
 
 ## Create Event Subscriptions
 ```
-public void createEventSubscription()
+public void CreateEventSubscription()
 {
         EventSubscription evs = new EventSubscription();
         evs.Event = "document.create";
-        evs.callback_url = "https://www.myapp.com/path/to/callback.php";
-        EventSubscription res = cudasign.documentService.createEventSubscription(requestedToken, evs);
+        evs.CallbackUrl = "https://www.myapp.com/path/to/callback.php";
+        EventSubscription res = cudasign.documentService.CreateEventSubscription(requestedToken, evs);
 }
 ```
 
 ## Delete Event Subscriptions
 ```
-public void deleteEventSubscription()
+public void DeleteEventSubscription()
 {
-        EventSubscription deleteEvent = cudasign.documentService.deleteEventSubscription(requestedToken, res.id);
+        EventSubscription deleteEvent = cudasign.documentService.DeleteEventSubscription(requestedToken, res.Id);
 }
 ```
 

@@ -9,14 +9,21 @@ namespace SNDotNetSDK.Models
      */
     public class Radio : Fields
     {
-        public int width { get; set; }
-        public int height { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
-        public int page_number { get; set; }
+        public int Width { get; set; }
+
+        public int Height { get; set; }
+
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public int PageNumber { get; set; }
+
         [JsonProperty("checked")]
-        public int check { get; set; }
-        public string value { get; set; }
-        public string created { get; set; }
+        public int Check { get; set; }
+
+        public string Value { get; set; }
+
+        public string Created { get; set; }
     }
 }

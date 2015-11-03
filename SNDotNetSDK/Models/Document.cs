@@ -9,55 +9,18 @@ namespace SNDotNetSDK.Models
      */
     public class Document
     {
-        private string Id;
-        private Oauth2Token OAuth2Token;
-        private String Link;
-        private String FilePath;
-        private Fields[] Fields;
-        private string Error;
+        public string Id { get; set; }
 
-        private int Code;
+        public Oauth2Token OAuth2Token { get; set; }
 
-        public string id
-        {
-            get { return Id; }
-            set { this.Id = value; }
-        }
+        public String Link { get; set; }
 
-        public Oauth2Token oauth2Token
-        {
-            get { return OAuth2Token; }
-            set { this.OAuth2Token = value; }
-        }
+        public String FilePath { get; set; }
 
-        public string link
-        {
-            get { return Link; }
-            set { this.Link = value; }
-        }
+        public Fields[] Fields { get; set; }
 
-        public string filePath
-        {
-            get { return FilePath; }
-            set { this.FilePath = value; }
-        }
+        public string Error { get; set; }
 
-        public Fields[] fields
-        {
-            get { return Fields; }
-            set { this.Fields = value; }
-        }
-
-        public string error
-        {
-            get { return Error; }
-            set { this.Error = value; }
-        }
-
-        public int code
-        {
-            get { return Code; }
-            set { this.Code = value; }
-        }
+        public int Code { get; set; }
     }
 }

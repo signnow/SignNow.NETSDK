@@ -26,7 +26,8 @@ namespace SNDotNetSDK.Configuration
              ClientSecret = clientSecret;
         }
 
-        public string getApiBase() {
+        public string GetApiBase()
+        {
 
             if (ApiBase.Equals("signnow.eval"))
             {
@@ -39,7 +40,7 @@ namespace SNDotNetSDK.Configuration
             return ApiBase;
         }
 
-        public String getBase64EncodedClientCredentials()
+        public String GetBase64EncodedClientCredentials()
         {
             string idAndSecret = ClientId + ":" + ClientSecret;
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(idAndSecret);

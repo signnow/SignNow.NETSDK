@@ -89,7 +89,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\Radio.cs" />
-    <Compile Include="Models\Signature.cs" />
     <Compile Include="Models\Template.cs" />
     <Compile Include="Models\Text.cs" />
     <Compile Include="ServiceImpl\UserService.cs" />

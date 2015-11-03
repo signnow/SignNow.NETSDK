@@ -22,13 +22,13 @@ namespace SNDotNetSDK.Test
     public class DocumentServiceTest
     {
         static CudaSign cudasign;
-        private string InputdirPath = "InputdirPath";
-        private string OutputdirPath = "OutputdirPath";
+        private string inputdirPath = "inputdirPath";
+        private string outputdirPath = "outputdirPath";
 
         [ClassInitialize]
-        public static void Before(TestContext t)
+        public static void before(TestContext t)
         {
-            Config config = new Config("apiBase", "clientId", "clientSecret");
+            Config config = new Config("ApiBAse", "Client-Id", "Client-Secret");
             cudasign = new CudaSign(config);
         }
         
@@ -36,31 +36,31 @@ namespace SNDotNetSDK.Test
         * This test method is used to create a Document in SignNow Application
         */
        [TestMethod]
-        public void CreateDocument()
+        public void createDocument()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if(Directory.Exists(InputdirPath))
+            if(Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
         }
 
@@ -68,34 +68,34 @@ namespace SNDotNetSDK.Test
          * This test method is used to get all the documents in the form of array for the specified user.
          */
         [TestMethod]
-        public void GetDocuments()
+        public void getDocuments()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
-            Document[] resultDoc = cudasign.documentService.GetDocuments(requestedToken);
+            Document[] resultDoc = cudasign.documentService.getDocuments(requestedToken);
             Assert.IsNotNull("resultDocid's", resultDoc.Length.ToString());
         }
 
@@ -103,34 +103,34 @@ namespace SNDotNetSDK.Test
          * This test method is used to GET the Document for a given user based on the given DocumentID from SignNow Application
          */
         [TestMethod]
-        public void GetDocumentbyId()
+        public void getDocumentbyId()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
-            Document resultDoc = cudasign.documentService.GetDocumentbyId(requestedToken, document.Id);
+            Document resultDoc = cudasign.documentService.getDocumentbyId(requestedToken, document.Id);
             Assert.IsNotNull("resultDocid", resultDoc.Id);
         }
 
@@ -138,51 +138,78 @@ namespace SNDotNetSDK.Test
          * This test method is used to update an existing Document in SignNow Application
          */
         [TestMethod]
-        public void UpdateDocument()
+        public void updateDocument()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
+
+            // Build the data for Signature Test
+            System.Drawing.Image img = SNDotNetSDK.Properties.Resources.SignatureImage;
+            string encodedString = ImageToBase64(img, ImageFormat.Jpeg);
+
+            System.Drawing.Image img1 = SNDotNetSDK.Properties.Resources.SignatureImage1;
+            string encodedString1 = ImageToBase64(img1, ImageFormat.Jpeg);
+
+            Signature signature = new Signature();
+            signature.X = 66;
+            signature.Y = 21;
+            signature.Width = 117;
+            signature.Height = 23;
+            signature.PageNumber = 1;
+            signature.data = encodedString;
+
+            Signature signature1 = new Signature();
+            signature1.X = 305;
+            signature1.Y = 18;
+            signature1.Width = 117;
+            signature1.Height = 23;
+            signature1.PageNumber = 1;
+            signature1.data = encodedString1;
+
+            List<Fields> signatureList = new List<Fields>();
+            signatureList.Add(signature);
+            signatureList.Add(signature1);
 
             // Build the data for Texts Test
             Text text = new Text();
-            text.Size = 30;
+            text.size = 30;
             text.X = 61;
             text.Y = 72;
             text.PageNumber = 0;
-            text.Font = "Arial";
-            text.Data = "A SAMPLE TEXT FIELD";
-            text.LineHeight = 9.075;
+            text.font = "Arial";
+            text.data = "A SAMPLE TEXT FIELD";
+            text.line_height = 9.075;
 
             Text text1 = new Text();
-            text1.Size = 30;
+            text1.size = 30;
             text1.X = 61;
             text1.Y = 72;
             text1.PageNumber = 1;
-            text1.Font = "Arial";
-            text1.Data = "A SAMPLE TEXT FIELD 2";
-            text1.LineHeight = 9.075;
+            text1.font = "Arial";
+            text1.data = "A SAMPLE TEXT FIELD 2";
+            text1.line_height = 9.075;
 
             List<Fields> textsList = new List<Fields>();
             textsList.Add(text);
@@ -215,8 +242,8 @@ namespace SNDotNetSDK.Test
             radiobutton.Y = 65;
             radiobutton.Width = 40;
             radiobutton.Height = 40;
-            radiobutton.Check = 0;
-            radiobutton.Value = "apple";
+            radiobutton.check = 0;
+            radiobutton.value = "apple";
             radiobutton.Created = "123456789";
 
             Radio radiobutton1 = new Radio();
@@ -225,8 +252,8 @@ namespace SNDotNetSDK.Test
             radiobutton1.Y = 55;
             radiobutton1.Width = 40;
             radiobutton1.Height = 40;
-            radiobutton1.Check = 0;
-            radiobutton1.Value = "cherry";
+            radiobutton1.check = 0;
+            radiobutton1.value = "cherry";
             radiobutton1.Created = "123456789";
 
             List<Fields> radioList = new List<Fields>();
@@ -248,11 +275,12 @@ namespace SNDotNetSDK.Test
             fieldsList.Add(fields);
 
             Dictionary<string, List<Fields>> fieldsMap = new Dictionary<string, List<Fields>>();
+            fieldsMap.Add("signatures",signatureList);
             fieldsMap.Add("texts", textsList);
             fieldsMap.Add("checks", checksList);
             fieldsMap.Add("fields", fieldsList);
 
-            Document resultDoc = cudasign.documentService.UpdateDocument(requestedToken, fieldsMap, document.Id);
+            Document resultDoc = cudasign.documentService.updateDocument(requestedToken, fieldsMap, document.Id);
 
             Assert.IsNotNull("DocumentId", document.Id);
         }
@@ -278,39 +306,39 @@ namespace SNDotNetSDK.Test
          * This test method is used to invite the signers to sign the Document in SignNow Application
          */
         [TestMethod]
-        public void Invite()
+        public void invite()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
             string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             Invitation invitation = new Invitation();
             invitation.From = resultUser.Email;
-            invitation.To = toEmail;
+            invitation.to = toEmail;
 
-            string resinvite = cudasign.documentService.Invite(requestedToken, invitation, document.Id);
+            string resinvite = cudasign.documentService.invite(requestedToken, invitation, document.Id);
             Assert.AreEqual("success", resinvite);
         }
 
@@ -318,51 +346,78 @@ namespace SNDotNetSDK.Test
          * This test method is used to send rolebased invites to the signers to sign on  the document
          */
         [TestMethod]
-        public void RoleBasedInvite()
+        public void roleBasedInvite()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
+
+            // Build the data for Signature Test
+            System.Drawing.Image img = SNDotNetSDK.Properties.Resources.SignatureImage;
+            string encodedString = ImageToBase64(img, ImageFormat.Jpeg);
+
+            System.Drawing.Image img1 = SNDotNetSDK.Properties.Resources.SignatureImage1;
+            string encodedString1 = ImageToBase64(img1, ImageFormat.Jpeg);
+
+            Signature signature = new Signature();
+            signature.X = 66;
+            signature.Y = 21;
+            signature.Width = 117;
+            signature.Height = 23;
+            signature.PageNumber = 1;
+            signature.data = encodedString;
+
+            Signature signature1 = new Signature();
+            signature1.X = 305;
+            signature1.Y = 18;
+            signature1.Width = 117;
+            signature1.Height = 23;
+            signature1.PageNumber = 1;
+            signature1.data = encodedString1;
+
+            List<Fields> signatureList = new List<Fields>();
+            signatureList.Add(signature);
+            signatureList.Add(signature1);
 
             // Build the data for Texts Test
             Text text = new Text();
-            text.Size = 30;
+            text.size = 30;
             text.X = 61;
             text.Y = 72;
             text.PageNumber = 0;
-            text.Font = "Arial";
-            text.Data = "A SAMPLE TEXT FIELD";
-            text.LineHeight = 9.075;
+            text.font = "Arial";
+            text.data = "A SAMPLE TEXT FIELD";
+            text.line_height = 9.075;
 
             Text text1 = new Text();
-            text1.Size = 30;
+            text1.size = 30;
             text1.X = 61;
             text1.Y = 72;
             text1.PageNumber = 1;
-            text1.Font = "Arial";
-            text1.Data = "A SAMPLE TEXT FIELD 2";
-            text1.LineHeight = 9.075;
+            text1.font = "Arial";
+            text1.data = "A SAMPLE TEXT FIELD 2";
+            text1.line_height = 9.075;
 
             List<Fields> textsList = new List<Fields>();
             textsList.Add(text);
@@ -395,8 +450,8 @@ namespace SNDotNetSDK.Test
             radiobutton.Y = 65;
             radiobutton.Width = 40;
             radiobutton.Height = 40;
-            radiobutton.Check = 0;
-            radiobutton.Value = "apple";
+            radiobutton.check = 0;
+            radiobutton.value = "apple";
             radiobutton.Created = "123456789";
 
             Radio radiobutton1 = new Radio();
@@ -405,8 +460,8 @@ namespace SNDotNetSDK.Test
             radiobutton1.Y = 55;
             radiobutton1.Width = 40;
             radiobutton1.Height = 40;
-            radiobutton1.Check = 0;
-            radiobutton1.Value = "cherry";
+            radiobutton1.check = 0;
+            radiobutton1.value = "cherry";
             radiobutton1.Created = "123456789";
 
             List<Fields> radioList = new List<Fields>();
@@ -450,12 +505,13 @@ namespace SNDotNetSDK.Test
             fieldsList.Add(fields2);
 
             Dictionary<string, List<Fields>> fieldsMap = new Dictionary<string, List<Fields>>();
+            fieldsMap.Add("signatures", signatureList);
             fieldsMap.Add("texts", textsList);
             fieldsMap.Add("checks", checksList);
             fieldsMap.Add("fields", fieldsList);
 
-            Document resultDoc = cudasign.documentService.UpdateDocument(requestedToken, fieldsMap, document.Id);
-            Document getDoc = cudasign.documentService.GetDocumentbyId(requestedToken, resultDoc.Id);
+            Document resultDoc = cudasign.documentService.updateDocument(requestedToken, fieldsMap, document.Id);
+            Document getDoc = cudasign.documentService.getDocumentbyId(requestedToken, resultDoc.Id);
 
             Fields[] flds = getDoc.Fields;
             List<System.Collections.Hashtable> roleMapList = new List<System.Collections.Hashtable>();
@@ -467,7 +523,7 @@ namespace SNDotNetSDK.Test
                 string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
                     System.Collections.Hashtable roleMap = new System.Collections.Hashtable();
                     roleMap.Add("email", toEmail);
-                    roleMap.Add("role_id", flds[i].RoleId);
+                    roleMap.Add("role_id", flds[i].Role_id);
                     roleMap.Add("role", flds[i].Role);
                     roleMap.Add("order", ++counter);
                  roleMapList.Add(roleMap);
@@ -487,42 +543,42 @@ namespace SNDotNetSDK.Test
          * This test method is used to Cancel an invite to a document.
          */
         [TestMethod]
-        public void CancelInvite()
+        public void cancelInvite()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
             string toEmail = "deepak" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             Invitation invitation = new Invitation();
             invitation.From = resultUser.Email;
-            invitation.To = toEmail;
+            invitation.to = toEmail;
 
-            string resinvite = cudasign.documentService.Invite(requestedToken, invitation, document.Id);
+            string resinvite = cudasign.documentService.invite(requestedToken, invitation, document.Id);
             Assert.AreEqual("success", resinvite);
 
-            string cancelinvite = cudasign.documentService.CancelInvite(requestedToken, document.Id);
+            string cancelinvite = cudasign.documentService.cancelInvite(requestedToken, document.Id);
             Assert.AreEqual("success", cancelinvite);
         }
 
@@ -530,33 +586,33 @@ namespace SNDotNetSDK.Test
          * This test method is used to GET a Document as PDF in SignNow Application
          */
         [TestMethod]
-        public void ShareDocument()
+        public void shareDocument()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
-            Document resdoc = cudasign.documentService.ShareDocument(requestedToken, document.Id);
+            Document resdoc = cudasign.documentService.shareDocument(requestedToken, document.Id);
 
             Assert.IsNotNull("Document Link", resdoc.Link);
         }
@@ -565,34 +621,34 @@ namespace SNDotNetSDK.Test
          *This test method is used to GET the Document History for a given Document ID in SignNow Application
          */
         [TestMethod]
-        public void GetDocumentHistory()
+        public void getDocumentHistory()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
-            DocumentHistory[] dochistory = cudasign.documentService.GetDocumentHistory(requestedToken, document.Id);
+            DocumentHistory[] dochistory = cudasign.documentService.getDocumentHistory(requestedToken, document.Id);
             Assert.IsNotNull("Ip Address :", dochistory[0].IpAddress);
         }
 
@@ -600,38 +656,38 @@ namespace SNDotNetSDK.Test
          *This test method is used to create a Template for a Given Document in SignNow Application
          */
         [TestMethod]
-        public void CreateTemplate()
+        public void createTemplate()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
             Template template = new Template();
-            template.DocumentId = document.Id;
-            template.DocumentName = "New Template";
+            template.document_id = document.Id;
+            template.document_name = "New Template";
 
-            Template resultTemplate = cudasign.documentService.CreateTemplate(requestedToken, template);
+            Template resultTemplate = cudasign.documentService.createTemplate(requestedToken, template);
             Assert.IsNotNull("template create result", resultTemplate.Id);
         }
 
@@ -639,42 +695,42 @@ namespace SNDotNetSDK.Test
          This test method is used to create a Document from a Template based on the template id SignNow Application
          */
         [TestMethod]
-        public void CreateNewDocumentFromTemplate()
+        public void createNewDocumentFromTemplate()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
             Template template = new Template();
-            template.DocumentId = document.Id;
-            template.DocumentName = "New Template-PostDoc28";
+            template.document_id = document.Id;
+            template.document_name = "New Template-PostDoc28";
 
-            Template resultTemplate = cudasign.documentService.CreateTemplate(requestedToken, template);
+            Template resultTemplate = cudasign.documentService.createTemplate(requestedToken, template);
             Assert.IsNotNull("template create result", resultTemplate.Id);
-            resultTemplate.DocumentName = "Copy Template-PostDoc28";
+            resultTemplate.document_name = "Copy Template-PostDoc28";
 
-            Template copyTemplate = cudasign.documentService.CreateNewDocumentFromTemplate(requestedToken, resultTemplate);
+            Template copyTemplate = cudasign.documentService.createNewDocumentFromTemplate(requestedToken, resultTemplate);
             Assert.IsNotNull("Document Id", copyTemplate.Id);
         }
 
@@ -682,37 +738,37 @@ namespace SNDotNetSDK.Test
          This test method is used to get the document in the form of bytes which is later transformed to .pdf
          */
         [TestMethod]
-        public void DownloadCollapsedDocument()
+        public void downloadCollapsedDocument()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
-            byte[] docarr = cudasign.documentService.DownloadCollapsedDocument(requestedToken, document.Id);
-            if(Directory.Exists(OutputdirPath))
+            byte[] docarr = cudasign.documentService.downloadCollapsedDocument(requestedToken, document.Id);
+            if(Directory.Exists(outputdirPath))
             {
-                string dest = OutputdirPath + @"\" + document.Id + ".pdf";
+                string dest = outputdirPath + @"\" + document.Id + ".pdf";
                 File.WriteAllBytes(dest, docarr);
             }
             Assert.IsNotNull("Document Content", docarr.Length.ToString());
@@ -722,34 +778,34 @@ namespace SNDotNetSDK.Test
          This test method is used to delete a previously uploaded document
          */
         [TestMethod]
-        public void DeleteDocument()
+        public void deleteDocument()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.Create(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
 
-            string confirm = cudasign.documentService.DeleteDocument(requestedToken, document.Id);
+            string confirm = cudasign.documentService.deleteDocument(requestedToken, document.Id);
             Assert.AreEqual("success", confirm);
         }
 
@@ -757,34 +813,34 @@ namespace SNDotNetSDK.Test
          This test method is used to merge the list of documents based on the given document id's in SignNow Application
          */
         [TestMethod]
-        public void MergeDocuments()
+        public void mergeDocuments()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc1 = new Document();
             Document doc2 = new Document();
-            if (Directory.Exists(InputdirPath) && Directory.GetFiles(@InputdirPath).Length>=2)
+            if (Directory.Exists(inputdirPath) && Directory.GetFiles(@inputdirPath).Length>=2)
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc1.FilePath = DocFilePath[0];
-                doc2.FilePath = DocFilePath[1];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc1.FilePath = docFilePath[0];
+                doc2.FilePath = docFilePath[1];
             }
-            Document document1 = cudasign.documentService.Create(requestedToken, doc1);
+            Document document1 = cudasign.documentService.create(requestedToken, doc1);
             Assert.IsNotNull("DocumentId", document1.Id);
-            Document document2 = cudasign.documentService.Create(requestedToken, doc2);
+            Document document2 = cudasign.documentService.create(requestedToken, doc2);
             Assert.IsNotNull("DocumentId", document2.Id);
 
             List<string> docIds = new List<string>();
@@ -793,10 +849,10 @@ namespace SNDotNetSDK.Test
             Hashtable myMergeMap = new Hashtable();
             myMergeMap.Add("document_ids", docIds);
 
-            byte[] res = cudasign.documentService.MergeDocuments(requestedToken, myMergeMap);
-            if (Directory.Exists(OutputdirPath))
+            byte[] res = cudasign.documentService.mergeDocuments(requestedToken, myMergeMap);
+            if (Directory.Exists(outputdirPath))
             {
-                string dest = OutputdirPath + @"\Merge" + (document1.Id.Substring(1, 4) + document2.Id.Substring(1, 4)) + ".pdf";
+                string dest = outputdirPath + @"\Merge" + (document1.Id.Substring(1, 4) + document2.Id.Substring(1, 4)) + ".pdf";
                 File.WriteAllBytes(dest, res);
             }
             Assert.IsNotNull("Document Content", res.Length.ToString());
@@ -806,27 +862,27 @@ namespace SNDotNetSDK.Test
          This test method is used for creating event subscription, which will be triggered when specific event take place
          */
         [TestMethod]
-        public void CreateEventSubscription()
+        public void createEventSubscription()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             EventSubscription evs = new EventSubscription();
             evs.Event = "document.create";
             evs.CallbackUrl = "https://www.myapp.com/path/to/callback.php";
-            EventSubscription res = cudasign.documentService.CreateEventSubscription(requestedToken, evs);
+            EventSubscription res = cudasign.documentService.createEventSubscription(requestedToken, evs);
             Assert.IsNotNull("Subscription Id Created", res.Id);
         }
 
@@ -834,30 +890,30 @@ namespace SNDotNetSDK.Test
          This test method is used to delete an event subscription 
          */
         [TestMethod]
-        public void DeleteEventSubscription()
+        public void deleteEventSubscription()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             EventSubscription evs = new EventSubscription();
             evs.Event = "document.create";
             evs.CallbackUrl = "https://www.myapp.com/path/to/callback.php";
-            EventSubscription res = cudasign.documentService.CreateEventSubscription(requestedToken, evs);
+            EventSubscription res = cudasign.documentService.createEventSubscription(requestedToken, evs);
             Assert.IsNotNull("Subscription Id Created", res.Id);
 
-            EventSubscription deleteEvent = cudasign.documentService.DeleteEventSubscription(requestedToken, res.Id);
+            EventSubscription deleteEvent = cudasign.documentService.deleteEventSubscription(requestedToken, res.Id);
             Assert.AreEqual("deleted", deleteEvent.Status);
         }
 
@@ -866,63 +922,31 @@ namespace SNDotNetSDK.Test
          * Simple field tags
          */
         [TestMethod]
-        public void CreateSimpleFieldTag()
+        public void createSimpleFieldTag()
         {
             string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
             User user = new User();
             user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
+            user.password = "fakePassword";
+            user.first_name = "firstName";
+            user.last_name = "LastName";
 
-            User resultUser = cudasign.userService.Create(user);
-
-            Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
-
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
-
-            Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
-            {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
-            }
-
-            Document document = cudasign.documentService.Create(requestedToken, doc);
-            Assert.IsNotNull("DocumentId", document.Id);
-        }
-
-        /*
-        * This test method is used to create a Document in SignNow Application that contains SignNow Document Field Tags.
-        */
-        [TestMethod]
-        public void CreateDocumentFieldExtract()
-        {
-            string randomEmail = "lukeskywalker" + DateTime.Now.ToBinary().ToString() + "@mailinator.com";
-            User user = new User();
-            user.Email = randomEmail;
-            user.Password = "fakePassword";
-            user.FirstName = "firstName";
-            user.LastName = "LastName";
-
-            User resultUser = cudasign.userService.Create(user);
+            User resultUser = cudasign.userService.create(user);
 
             Assert.IsNotNull("No user id from creating user", resultUser.Id);
-            resultUser.Password = "fakePassword";
+            resultUser.password = "fakePassword";
 
-            Oauth2Token requestedToken = cudasign.authenticationService.RequestToken(resultUser);
-            Assert.IsNotNull("Access Token", requestedToken.AccessToken);
+            Oauth2Token requestedToken = cudasign.authenticationService.requestToken(resultUser);
+            Assert.IsNotNull("Access Token", requestedToken.access_token);
 
             Document doc = new Document();
-            if (Directory.Exists(InputdirPath))
+            if (Directory.Exists(inputdirPath))
             {
-                string[] DocFilePath = Directory.GetFiles(@InputdirPath);
-                doc.FilePath = DocFilePath[0];
+                string[] docFilePath = Directory.GetFiles(@inputdirPath);
+                doc.FilePath = docFilePath[0];
             }
 
-            Document document = cudasign.documentService.CreateDocumentFieldExtract(requestedToken, doc);
+            Document document = cudasign.documentService.create(requestedToken, doc);
             Assert.IsNotNull("DocumentId", document.Id);
         }
     }

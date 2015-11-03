@@ -8,14 +8,14 @@ namespace SNDotNetSDK.Models
      */
     public class Template
     {
-        public string document_id { get; set; }
+        public string DocumentId { get; set; }
 
-        public string document_name { get; set; }
+        public string DocumentName { get; set; }
 
-        public string id { get; set; }
+        public string Id { get; set; }
 
-        public string error { get; set; }
+        public string Error { get; set; }
 
-        public int code { get; set; }
+        public int Code { get; set; }
     }
 }

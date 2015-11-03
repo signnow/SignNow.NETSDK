@@ -15,13 +15,13 @@ namespace SNDotNetSDK.Service
          * @param user
          * @return a user with the system generated OAuth2 credentials
          */
-        Oauth2Token requestToken(User user);
+        Oauth2Token RequestToken(User user);
 
         /**
         * Verify that an OAuth2 token is still valid for some user.
         *
         * @return
         */
-        Oauth2Token verify(string token);
+        Oauth2Token Verify(string token);
     }
 }
