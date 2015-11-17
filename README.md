@@ -131,9 +131,9 @@ public void CreateDocumentFieldExtract()
 public void GetDocument()
 {
         Document[] resultDoc = cudasign.documentService.GetDocuments(requestedToken);
-		if(resultDoc[0].error != null)
+		if(resultDoc[0].Error != null)
 		{
-			Console.WriteLine("Error "+resultDoc[0].error+"occurs with status code "+resultDoc[0].code);
+			Console.WriteLine("Error "+resultDoc[0].Error+"occurs with status code "+resultDoc[0].Code);
 		}
 }
 ```
