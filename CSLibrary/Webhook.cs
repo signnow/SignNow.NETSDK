@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Dynamic;
 
 namespace CudaSign
 {
@@ -62,9 +63,9 @@ namespace CudaSign
 
             request.RequestFormat = DataFormat.Json;
 
-            JObject jsonObj = new JObject { };
-            jsonObj["event"] = EventType;
-            jsonObj["callback_url"] = CallbackUrl;
+            dynamic jsonObj = new ExpandoObject();
+            jsonObj.@event = EventType;
+            jsonObj.callback_url = CallbackUrl;
 
             request.AddBody(jsonObj);
 
