@@ -201,6 +201,14 @@ JObject listWebhooksRes = CudaSign.Webhook.List(AccessToken);
 JObject deleteWebhookRes = CudaSign.Webhook.Delete(AccessToken, "YOUR WEBHOOK ID");
 ```
 
+# Link
+
+## Create Link
+```csharp
+JObject createLinkRes = CudaSign.Link.Create(AccessToken, "YOUR DOCUMENT ID");
+```
+
+
 # Additional Contact Information
 
 ##### SUPPORT
