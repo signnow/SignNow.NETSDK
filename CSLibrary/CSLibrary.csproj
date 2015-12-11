@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CudaSign.cs" />
+    <Compile Include="Link.cs" />
     <Compile Include="Webhook.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="Template.cs" />

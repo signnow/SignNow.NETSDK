@@ -36,7 +36,8 @@ namespace Examples
             string accountPass = "YourAccountPass";
             string testEmailAddress = "name@domain.com";
 
-            CudaSign.Config.init("YOUR CLIENT ID", "YOUR CLIENT SECRET", true);
+            //Client ID, Client Secret, Prodiction = true or Eval = false
+            CudaSign.Config.init("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", true);
 
             //=======================
             // OAuth2
@@ -206,6 +207,18 @@ namespace Examples
             JObject deleteWebhookRes = CudaSign.Webhook.Delete(AccessToken, createWebhookRes["id"].ToString());
             Console.WriteLine("Results: {0} \r\n\r\n\r\n", deleteWebhookRes.ToString());
 
+            //=======================
+            // Link
+            //=======================
+            ConsoleH1("Link");
+
+            ConsoleH2("Create Signing Link");
+            JObject createLinkRes = CudaSign.Link.Create(AccessToken, DocumentId);
+            Console.WriteLine("Results: {0} \r\n\r\n\r\n", createLinkRes.ToString());
+
+            //=======================
+            // PAUSE FOR READING
+            //=======================
             Console.Read();
         }
     }
