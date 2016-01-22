@@ -64,6 +64,11 @@ JObject accountRes = CudaSign.User.Get(AccessToken);
 
 # Document
 
+## Get Document
+```csharp
+JObject docRes = CudaSign.Document.Get(AccessToken, "YOUR DOCUMENT ID");
+```
+
 ## Create New Document
 ```csharp
 JObject newDocRes = CudaSign.Document.Create(AccessToken, "pdf-sample.pdf");
@@ -208,6 +213,8 @@ JObject deleteWebhookRes = CudaSign.Webhook.Delete(AccessToken, "YOUR WEBHOOK ID
 JObject createLinkRes = CudaSign.Link.Create(AccessToken, "YOUR DOCUMENT ID");
 ```
 
+# Updates
+- 1/21/2016 - Every method now contains an additional ResultFormat argument that allows you to specify JSON (default) or XML.
 
 # Additional Contact Information
 
