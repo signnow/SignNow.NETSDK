@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Dynamic;
+using System.Xml;
 
 namespace CudaSign
 {
@@ -20,7 +21,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <returns>List of Subscriptions</returns>
-        public static JObject List(string AccessToken)
+        public static dynamic List(string AccessToken, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -31,18 +32,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -52,7 +63,7 @@ namespace CudaSign
         /// <param name="EventType">document.create, document.update, document.delete, invite.create, invite.update</param>
         /// <param name="CallbackUrl">The URL called when the even is triggered.</param>
         /// <returns>ID, Created, Updated</returns>
-        public static JObject Create(string AccessToken, string EventType, string CallbackUrl)
+        public static dynamic Create(string AccessToken, string EventType, string CallbackUrl, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -71,18 +82,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -91,7 +112,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="SubscriptionId"></param>
         /// <returns>{"status":"success"}</returns>
-        public static JObject Delete(string AccessToken, string SubscriptionId)
+        public static dynamic Delete(string AccessToken, string SubscriptionId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -102,18 +123,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
     }

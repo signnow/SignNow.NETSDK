@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CudaSign
 {
@@ -19,7 +20,7 @@ namespace CudaSign
         /// <param name="Password"></param>
         /// <param name="Scope">A space delimited list of API URIs e.g. "user%20documents%20user%2Fdocumentsv2"</param>
         /// <returns>New Access Token, Token Type, Expires In, Refresh Token, ID, Scope</returns>
-        public static JObject RequestToken(string Email, string Password, string Scope = "*")
+        public static dynamic RequestToken(string Email, string Password, string Scope = "*", string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -36,19 +37,29 @@ namespace CudaSign
                 request.RequestFormat = DataFormat.Json;
 
             var response = client.Execute(request);
-            
+
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -56,7 +67,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken">User's Access Token</param>
         /// <returns>Access Token, Token Type, Expires In, Refresh Token, Scope</returns>
-        public static JObject Verify(string AccessToken)
+        public static dynamic Verify(string AccessToken, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -66,20 +77,29 @@ namespace CudaSign
                 .AddHeader("Authorization", "Bearer " + AccessToken);
 
             var response = client.Execute(request);
-            
+
+            dynamic results = "";
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
     }
 }

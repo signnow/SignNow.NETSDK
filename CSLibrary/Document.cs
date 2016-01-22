@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml;
 
 namespace CudaSign
 {
@@ -21,8 +22,9 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="FilePath">Local Path to the File</param>
         /// <param name="ExtractFields">If set TRUE the document will be checked for special field tags. If any exist they will be converted to fields.</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>ID of the document that was created</returns>
-        public static JObject Create(string AccessToken, string FilePath, bool ExtractFields = false)
+        public static dynamic Create(string AccessToken, string FilePath, bool ExtractFields = false, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -35,19 +37,29 @@ namespace CudaSign
                 .AddFile("file", Path.GetFullPath(FilePath));
 
             var response = client.Execute(request);
-            
+
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -57,7 +69,7 @@ namespace CudaSign
         /// <param name="DocumentID">Document Id</param>
         /// <param name="DataObj">Data Object (ex. dynamic new { fields = new[] { new { x = 10, y = 10, width = 122... } } }</param>
         /// <returns>Document ID</returns>
-        public static JObject Update(string AccessToken, string DocumentId, dynamic DataObj)
+        public static dynamic Update(string AccessToken, string DocumentId, dynamic DataObj, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -71,18 +83,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -91,7 +113,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId">Document Id</param>
         /// <returns>Document Information, Status, Fields...</returns>
-        public static JObject Get(string AccessToken, string DocumentId)
+        public static dynamic Get(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -102,18 +124,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -122,7 +154,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId">Document Id</param>
         /// <returns>{"status":"success"}</returns>
-        public static JObject Delete(string AccessToken, string DocumentId)
+        public static dynamic Delete(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -133,18 +165,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -155,7 +197,7 @@ namespace CudaSign
         /// <param name="SaveFilePath">Local Path to Save File</param>
         /// <param name="SaveFileName">File Name without Extension</param>
         /// <returns>Collapsed document in PDF format saved to a the location provided.</returns>
-        public static JObject Download(string AccessToken, string DocumentId, string SaveFilePath = "", string SaveFileName = "my-collapsed-document")
+        public static dynamic Download(string AccessToken, string DocumentId, string SaveFilePath = "", string SaveFileName = "my-collapsed-document", string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -166,23 +208,34 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var path = (SaveFilePath != "") ? Path.GetDirectoryName(SaveFilePath) + "/" + SaveFileName + ".pdf" : Directory.GetCurrentDirectory() + "/" + SaveFileName + ".pdf";
+                var path = (SaveFilePath != "") ? Path.GetDirectoryName(SaveFilePath) + "\\" + SaveFileName + ".pdf" : Directory.GetCurrentDirectory() + "\\" + SaveFileName + ".pdf";
                 client.DownloadData(request).SaveAs(path);
-                //dynamic results = JsonConvert.DeserializeObject(response.Content);
-                
+
                 dynamic jsonObject = new JObject();
                 jsonObject.file = path;
-                return jsonObject;
+
+                results = JsonConvert.SerializeObject(jsonObject);
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -192,7 +245,7 @@ namespace CudaSign
         /// <param name="DocumentId"></param>
         /// <param name="DataObj">Data Object (ex. dynamic new { to = new[] { new { email = "name@domain.com", role_id = ... } } }</param>
         /// <returns>{"result":"success"}</returns>
-        public static JObject Invite(string AccessToken, string DocumentId, dynamic DataObj)
+        public static dynamic Invite(string AccessToken, string DocumentId, dynamic DataObj, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -206,18 +259,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -226,7 +289,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
         /// <returns>{"status":"success"}</returns>
-        public static JObject CancelInvite(string AccessToken, string DocumentId)
+        public static dynamic CancelInvite(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -237,18 +300,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -257,7 +330,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
         /// <returns>URL to download the document as a PDF</returns>
-        public static JObject Share(string AccessToken, string DocumentId)
+        public static dynamic Share(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -268,18 +341,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -288,7 +371,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DataObj">Data Object (ex. dynamic new { to = new[] { new { name = "My New Merged Doc", document_ids = ... } } }</param>
         /// <returns>Location the PDF file was saved to.</returns>
-        public static JObject Merge(string AccessToken, dynamic DataObj, string SaveFilePath = "", string SaveFileName = "my-merged-document")
+        public static dynamic Merge(string AccessToken, dynamic DataObj, string SaveFilePath = "", string SaveFileName = "my-merged-document", string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -302,22 +385,34 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var path = (SaveFilePath != "") ? Path.GetDirectoryName(SaveFilePath) + "/" + SaveFileName + ".pdf" : Directory.GetCurrentDirectory() + "/" + SaveFileName + ".pdf";
+                var path = (SaveFilePath != "") ? Path.GetDirectoryName(SaveFilePath) + "\\" + SaveFileName + ".pdf" : Directory.GetCurrentDirectory() + "\\" + SaveFileName + ".pdf";
                 client.DownloadData(request).SaveAs(path);
 
                 dynamic jsonObject = new JObject();
                 jsonObject.file = path;
-                return jsonObject;
+
+                results = JsonConvert.SerializeObject(jsonObject);
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -326,7 +421,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
         /// <returns>Array of history for the document.</returns>
-        public static JArray History(string AccessToken, string DocumentId)
+        public static dynamic History(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -337,18 +432,28 @@ namespace CudaSign
 
             var response = client.Execute(request);
 
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
         
     }

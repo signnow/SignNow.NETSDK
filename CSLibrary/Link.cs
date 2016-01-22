@@ -9,12 +9,13 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml;
 
 namespace CudaSign
 {
     public class Link
     {
-        public static JObject Create(string AccessToken, string DocumentId)
+        public static dynamic Create(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -27,19 +28,29 @@ namespace CudaSign
             request.AddBody(new { document_id = DocumentId });
 
             var response = client.Execute(request);
-            
+
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
     }
 }

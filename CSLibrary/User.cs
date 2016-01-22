@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CudaSign
 {
@@ -20,10 +21,17 @@ namespace CudaSign
         /// <param name="FirstName">New User's First Name</param>
         /// <param name="LastName">New User's Last Name</param>
         /// <returns>The ID of the new user account and verification status.</returns>
-        public static JObject Create(string Email, string Password, string FirstName = "", string LastName = "")
+        public static dynamic Create(string Email, string Password, string FirstName = "", string LastName = "", string ClientId = "", string ClientSecret = "", string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
+
+            var clientCredentials = Config.EncodedClientCredentials;
+
+            if (ClientId != "" && ClientSecret != "")
+            {
+                clientCredentials = Config.encodeClientCredentials(ClientId, ClientSecret);
+            }
 
             var request = new RestRequest("/user", Method.POST)
                 .AddHeader("Accept", "application/json")
@@ -33,27 +41,38 @@ namespace CudaSign
                 request.AddBody(new { email = Email, password = Password, first_name = FirstName, last_name = LastName });
 
             var response = client.Execute(request);
-            
+
+            dynamic results = "";
+
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
 
         /// <summary>
         /// Retrieves a User Account
         /// </summary>
         /// <param name="AccessToken">User's Access Token</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>User Account Information</returns>
-        public static JObject Get(string AccessToken)
+        public static dynamic Get(string AccessToken,  string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
@@ -63,20 +82,29 @@ namespace CudaSign
                 .AddHeader("Authorization", "Bearer " + AccessToken);
 
             var response = client.Execute(request);
-            
+
+            dynamic results = "";
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                dynamic results = JsonConvert.DeserializeObject(response.Content);
-                return results;
+                results = response.Content;
             }
             else
             {
                 Console.WriteLine(response.Content.ToString());
-                dynamic jsonObject = new JObject();
-                jsonObject.error = response.Content.ToString();
-                return jsonObject;
+                results = response.Content.ToString();
             }
+
+            if (ResultFormat == "JSON")
+            {
+                results = JsonConvert.DeserializeObject(results);
+            }
+            else if (ResultFormat == "XML")
+            {
+                results = (XmlDocument)JsonConvert.DeserializeXmlNode(results, "root");
+            }
+
+            return results;
         }
     }
 }
