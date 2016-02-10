@@ -19,6 +19,7 @@ namespace CudaSign
         /// <param name="Email"></param>
         /// <param name="Password"></param>
         /// <param name="Scope">A space delimited list of API URIs e.g. "user%20documents%20user%2Fdocumentsv2"</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>New Access Token, Token Type, Expires In, Refresh Token, ID, Scope</returns>
         public static dynamic RequestToken(string Email, string Password, string Scope = "*", string ResultFormat = "JSON")
         {
@@ -66,6 +67,7 @@ namespace CudaSign
         /// Verify a User's Access Token
         /// </summary>
         /// <param name="AccessToken">User's Access Token</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Access Token, Token Type, Expires In, Refresh Token, Scope</returns>
         public static dynamic Verify(string AccessToken, string ResultFormat = "JSON")
         {

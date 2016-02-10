@@ -19,6 +19,7 @@ namespace CudaSign
         /// Gets a List of Folders
         /// </summary>
         /// <param name="AccessToken"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Folders, Document & Template Counts</returns>
         public static dynamic List(string AccessToken, string ResultFormat = "JSON")
         {
@@ -61,6 +62,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="FolderId">ID of the Folder to Get</param>
         /// <param name="Params">Option Filter and Sort By Params</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>List of documents in the folder.</returns>
         public static dynamic Get(string AccessToken, string FolderId, string Params = "", string ResultFormat = "JSON")
         {

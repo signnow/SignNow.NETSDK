@@ -123,6 +123,42 @@ dynamic inviteDataObj = new
 JObject sendFreeFormInviteRes = CudaSign.Document.Invite(AccessToken, "YOUR DOCUMENT ID", inviteDataObj);
 ```
 
+## Send Role-based Invite
+```csharp
+dynamic inviteDataObj = new {
+  to = new [] {
+    new {
+      email = "name@domain.com",
+      role_id = "",
+      role = "Role 1",
+      order = 1,
+      authentication_type = "password",
+      password = "SOME PASSWORD",
+      expiration_days = 15,
+      reminder = 5
+    },
+    new {
+      email = "name@domain.com",
+      role_id = "",
+      role = "Role 2",
+      order = 2,
+      authentication_type = "password",
+      password = "SOME PASSWORD",
+      expiration_days = 30,
+      reminder = 10
+    }
+  },
+  from = "your_account_email@domain.com",
+  cc = new [] {
+    "name@domain.com"
+  },
+  subject = "YOUR SUBJECT",
+  message = "YOUR MESSAGE"
+};
+
+JObject sendRoleBasedInviteRes = CudaSign.Document.Invite(AccessToken, DocumentId, inviteDataObj);
+```
+
 ## Cancel Invite
 ```csharp
 JObject cancelInviteRes = CudaSign.Document.CancelInvite(AccessToken, "YOUR DOCUMENT ID");
@@ -215,6 +251,7 @@ JObject createLinkRes = CudaSign.Link.Create(AccessToken, "YOUR DOCUMENT ID");
 
 # Updates
 - 1/21/2016 - Every method now contains an additional ResultFormat argument that allows you to specify JSON (default) or XML.
+- 2/10/2016 - CudaSign.Document.Invite now has an optional send email argument, updated documentation with new Role-based invite example.
 
 # Additional Contact Information
 

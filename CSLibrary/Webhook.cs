@@ -20,6 +20,7 @@ namespace CudaSign
         /// Get a List of Current Webhook Subscriptions
         /// </summary>
         /// <param name="AccessToken"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>List of Subscriptions</returns>
         public static dynamic List(string AccessToken, string ResultFormat = "JSON")
         {
@@ -62,6 +63,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="EventType">document.create, document.update, document.delete, invite.create, invite.update</param>
         /// <param name="CallbackUrl">The URL called when the even is triggered.</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>ID, Created, Updated</returns>
         public static dynamic Create(string AccessToken, string EventType, string CallbackUrl, string ResultFormat = "JSON")
         {
@@ -111,6 +113,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="SubscriptionId"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>{"status":"success"}</returns>
         public static dynamic Delete(string AccessToken, string SubscriptionId, string ResultFormat = "JSON")
         {

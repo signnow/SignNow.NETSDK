@@ -20,6 +20,7 @@ namespace CudaSign
         /// <param name="Password">New User's Password</param>
         /// <param name="FirstName">New User's First Name</param>
         /// <param name="LastName">New User's Last Name</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>The ID of the new user account and verification status.</returns>
         public static dynamic Create(string Email, string Password, string FirstName = "", string LastName = "", string ClientId = "", string ClientSecret = "", string ResultFormat = "JSON")
         {
@@ -70,6 +71,7 @@ namespace CudaSign
         /// Retrieves a User Account
         /// </summary>
         /// <param name="AccessToken">User's Access Token</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>User Account Information</returns>
         public static dynamic Get(string AccessToken,  string ResultFormat = "JSON")

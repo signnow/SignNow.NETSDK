@@ -15,6 +15,13 @@ namespace CudaSign
 {
     public class Link
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="AccessToken"></param>
+        /// <param name="DocumentId"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
+        /// <returns>An Array of History for the Document</returns>
         public static dynamic Create(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
             var client = new RestClient();

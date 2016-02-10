@@ -68,6 +68,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentID">Document Id</param>
         /// <param name="DataObj">Data Object (ex. dynamic new { fields = new[] { new { x = 10, y = 10, width = 122... } } }</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Document ID</returns>
         public static dynamic Update(string AccessToken, string DocumentId, dynamic DataObj, string ResultFormat = "JSON")
         {
@@ -112,6 +113,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId">Document Id</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Document Information, Status, Fields...</returns>
         public static dynamic Get(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
@@ -153,6 +155,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId">Document Id</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>{"status":"success"}</returns>
         public static dynamic Delete(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
@@ -196,6 +199,7 @@ namespace CudaSign
         /// <param name="DocumentId">Document Id</param>
         /// <param name="SaveFilePath">Local Path to Save File</param>
         /// <param name="SaveFileName">File Name without Extension</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Collapsed document in PDF format saved to a the location provided.</returns>
         public static dynamic Download(string AccessToken, string DocumentId, string SaveFilePath = "", string SaveFileName = "my-collapsed-document", string ResultFormat = "JSON")
         {
@@ -244,13 +248,16 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
         /// <param name="DataObj">Data Object (ex. dynamic new { to = new[] { new { email = "name@domain.com", role_id = ... } } }</param>
+        /// <param name="ResultFormat">JSON, XML</param>
+        /// <param name="DisableEmail">Disable the Notification Email</param>
         /// <returns>{"result":"success"}</returns>
-        public static dynamic Invite(string AccessToken, string DocumentId, dynamic DataObj, string ResultFormat = "JSON")
+        public static dynamic Invite(string AccessToken, string DocumentId, dynamic DataObj, string ResultFormat = "JSON", bool DisableEmail = false)
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
+            var disableEmail = (DisableEmail) ? "?email=disable" : "";
 
-            var request = new RestRequest("/document/" + DocumentId + "/invite", Method.POST)
+            var request = new RestRequest("/document/" + DocumentId + "/invite" + disableEmail, Method.POST)
                 .AddHeader("Accept", "application/json")
                 .AddHeader("Authorization", "Bearer " + AccessToken);
 
@@ -288,6 +295,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>{"status":"success"}</returns>
         public static dynamic CancelInvite(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
@@ -329,6 +337,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>URL to download the document as a PDF</returns>
         public static dynamic Share(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {
@@ -370,6 +379,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="DataObj">Data Object (ex. dynamic new { to = new[] { new { name = "My New Merged Doc", document_ids = ... } } }</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Location the PDF file was saved to.</returns>
         public static dynamic Merge(string AccessToken, dynamic DataObj, string SaveFilePath = "", string SaveFileName = "my-merged-document", string ResultFormat = "JSON")
         {
@@ -420,6 +430,7 @@ namespace CudaSign
         /// </summary>
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Array of history for the document.</returns>
         public static dynamic History(string AccessToken, string DocumentId, string ResultFormat = "JSON")
         {

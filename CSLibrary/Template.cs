@@ -22,6 +22,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId">The ID of the Document to make a Template</param>
         /// <param name="DocumentName">New Template Name</param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>The ID of the new Template</returns>
         public static dynamic Create(string AccessToken, string DocumentId, string DocumentName = "", string ResultFormat = "JSON")
         {
@@ -78,6 +79,7 @@ namespace CudaSign
         /// <param name="AccessToken"></param>
         /// <param name="DocumentId"></param>
         /// <param name="DocumentName"></param>
+        /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>New Document ID and Name</returns>
         public static dynamic Copy(string AccessToken, string DocumentId, string DocumentName = "", string ResultFormat = "JSON")
         {
