@@ -32,12 +32,12 @@ namespace Examples
         static void Main(string[] args)
         {
             //Test Information - Needed to Run Test Below
-            string accountUser = "name@domain.com";
-            string accountPass = "YourAccountPass";
-            string testEmailAddress = "name@domain.com";
+            string accountUser = "";
+            string accountPass = "";
+            string testEmailAddress = "";
 
-            //Client ID, Client Secret, Prodiction = true or Eval = false
-            CudaSign.Config.init("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", true);
+            //Client ID, Client Secret, API URL
+            CudaSign.Config.init("[YOUR CLIENT ID]", "[YOUR CLIENT SECRET]", "https://api-eval.cudasign.com/");
 
             //=======================
             // OAuth2

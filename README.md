@@ -30,7 +30,7 @@ using CudaSign;
 using Newtonsoft.Json.Linq;
 using System.IO;
 
-CudaSign.Config.init("YOUR CLIENT ID", "YOUR CLIENT SECRET", [true/false]);
+CudaSign.Config.init("YOUR CLIENT ID", "YOUR CLIENT SECRET", "https://api-eval.cudasign.com");
 ```
 
 Examples
@@ -66,7 +66,11 @@ JObject accountRes = CudaSign.User.Get(AccessToken);
 
 ## Get Document
 ```csharp
+//without annotations
 JObject docRes = CudaSign.Document.Get(AccessToken, "YOUR DOCUMENT ID");
+
+//with annotations
+JObject docRes = CudaSign.Document.Get(AccessToken, "YOUR DOCUMENT ID", true);
 ```
 
 ## Create New Document

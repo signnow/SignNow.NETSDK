@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CudaSign.cs" />
+    <Compile Include="DocumentGroup.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Webhook.cs" />
     <Compile Include="Folder.cs" />
