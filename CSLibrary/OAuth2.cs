@@ -4,7 +4,7 @@ using System;
 using System.Net;
 using System.Xml;
 
-namespace CudaSign
+namespace SignNow
 {
     public class OAuth2
     {

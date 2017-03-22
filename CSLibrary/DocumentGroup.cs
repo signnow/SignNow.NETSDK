@@ -6,7 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Web.Script.Serialization;
 
-namespace CudaSign
+namespace SignNow
 {
     public class DocumentGroup
     {

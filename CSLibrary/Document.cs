@@ -7,7 +7,7 @@ using System.Net;
 using System.IO;
 using System.Xml;
 
-namespace CudaSign
+namespace SignNow
 {
     public class Document
     {

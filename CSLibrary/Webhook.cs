@@ -5,7 +5,7 @@ using System.Net;
 using System.Dynamic;
 using System.Xml;
 
-namespace CudaSign
+namespace SignNow
 {
     public class Webhook
     {

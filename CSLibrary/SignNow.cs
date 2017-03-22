@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CudaSign
+namespace SignNow
 {
     public class Config
     {
@@ -8,14 +8,14 @@ namespace CudaSign
         internal static string ApiHost = "";
 
         /// <summary>
-        /// CudaSign Initialization
+        /// SignNow Initialization
         /// </summary>
         /// <param name="Client">API Credentials - Client</param>
         /// <param name="Secret">API Credentials - Secret</param>
-        /// <param name="ApiServer">API Server Path. Defaults to CudaSign EVALUATION if left blank.</param>
+        /// <param name="ApiServer">API Server Path. Defaults to SignNow EVALUATION if left blank.</param>
         public static void init(String Client, String Secret, String ApiServer = "")
         {
-            ApiHost = (ApiServer != "") ? ApiServer : "https://api-eval.cudasign.com/";
+            ApiHost = (ApiServer != "") ? ApiServer : "https://api-eval.signnow.com/";
             EncodedClientCredentials = encodeClientCredentials(Client, Secret);
         }
 
@@ -24,6 +24,7 @@ namespace CudaSign
             string idAndSecret = Client + ":" + Secret;
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(idAndSecret);
             return System.Convert.ToBase64String(plainTextBytes);
+           
         }
     }
 }

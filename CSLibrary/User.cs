@@ -4,12 +4,13 @@ using System;
 using System.Net;
 using System.Xml;
 
-namespace CudaSign
+
+namespace SignNow
 {
     public class User
     {
         /// <summary>
-        /// Creates a New User CudaSign Account
+        /// Creates a New User SignNow Account
         /// </summary>
         /// <param name="Email">New User's Email Address</param>
         /// <param name="Password">New User's Password</param>
