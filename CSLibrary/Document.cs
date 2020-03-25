@@ -199,12 +199,12 @@ namespace SignNow
         /// <param name="SaveFileName">File Name without Extension</param>
         /// <param name="ResultFormat">JSON, XML</param>
         /// <returns>Collapsed document in PDF format saved to a the location provided.</returns>
-        public static dynamic Download(string AccessToken, string DocumentId, string SaveFilePath = "", string SaveFileName = "my-collapsed-document", string ResultFormat = "JSON")
+        public static dynamic Download(string AccessToken, string DocumentId, bool WithHistory = false, string SaveFilePath = "", string SaveFileName = "my-collapsed-document", string ResultFormat = "JSON")
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(Config.ApiHost);
 
-            var request = new RestRequest("/document/" + DocumentId + "/download?type=collapsed", Method.GET)
+            var request = new RestRequest("/document/" + DocumentId + "/download" + (WithHistory ? "/collapsed?with_history=1" : "?type=collapsed"), Method.GET)
                 .AddHeader("Accept", "application/json")
                 .AddHeader("Authorization", "Bearer " + AccessToken);
 

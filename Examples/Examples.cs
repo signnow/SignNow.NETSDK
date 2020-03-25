@@ -117,9 +117,14 @@ namespace Examples
 
             //Download Document
             ConsoleH2("Downloading Document");
-            JObject downloadDocRes = SignNow.Document.Download(AccessToken, DocumentId, "/", "sample");
+            JObject downloadDocRes = SignNow.Document.Download(AccessToken, DocumentId, false, "/", "sample");
             Console.WriteLine("Download Document: {0} \r\n\r\n\r\n", downloadDocRes["file"].ToString());
-            
+
+            //Download Document With History
+            ConsoleH2("Downloading Document With History");
+            JObject downloadDocWithHistoryRes = SignNow.Document.Download(AccessToken, DocumentId, true, "/", "sample");
+            Console.WriteLine("Download Document With History: {0} \r\n\r\n\r\n", downloadDocWithHistoryRes["file"].ToString());
+
             //Send Free Form Invite
             ConsoleH2("Sending Role-based Invite");
             dynamic inviteDataObj = new
