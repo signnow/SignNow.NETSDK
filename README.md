@@ -2,6 +2,8 @@ SignNow
 ===========
 SignNow .NET SDK
 
+**⚠️ This library has been deprecated, please use our new .NET library here: [SignNow.NET](https://github.com/signnow/SignNow.NET)**
+
 #### About SignNow
 SignNow is a powerful web-based e-signature solution that streamlines the signing process and overall document flow for businesses of any size. SignNow offers SaaS as well as public and private cloud deployment options using the same underlying API. With SignNow you can easily sign, share and manage documents in compliance with international data laws and industry-specific regulations. SignNow enables you to collect signatures from partners, employees and customers from any device within minutes. 
 
